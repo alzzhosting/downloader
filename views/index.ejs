@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CYBER BYPASS ENGINE V3.0 - by Ramzyy03</title>
+  <title>CYBER BYPASS ENGINE V4.0 - by Ramzyy03</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap');
 
     :root {
       --bg-main: #020205;
-      --card-bg: rgba(12, 12, 20, 0.75);
+      --card-bg: rgba(12, 12, 20, 0.8);
       --neon-cyan: #00f3ff;
       --neon-purple: #b026ff;
       --neon-green: #00ff88;
@@ -34,8 +34,8 @@
       align-items: center;
       overflow-x: hidden;
       background-image: 
-        radial-gradient(circle at 20% 20%, rgba(176, 38, 255, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(0, 243, 255, 0.08) 0%, transparent 40%);
+        radial-gradient(circle at 15% 15%, rgba(176, 38, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(0, 243, 255, 0.08) 0%, transparent 40%);
     }
 
     /* Cyber Scanline */
@@ -45,20 +45,20 @@
       z-index: 2; background-size: 100% 3px, 3px 100%; pointer-events: none;
     }
 
-    /* --- CYBER CAPTCHA OVERLAY --- */
+    /* --- CYBER MATRIX VERIFICATION OVERLAY --- */
     .cf-overlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(2, 2, 5, 0.95); backdrop-filter: blur(12px);
+      background: rgba(2, 2, 5, 0.96); backdrop-filter: blur(14px);
       z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center;
       transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .cf-overlay.hidden { opacity: 0; pointer-events: none; }
     
     .cf-box {
-      background: linear-gradient(135deg, rgba(20, 20, 30, 0.9), rgba(10, 10, 15, 0.95));
+      background: linear-gradient(135deg, rgba(20, 20, 30, 0.95), rgba(10, 10, 15, 0.98));
       border: 1px solid var(--neon-purple);
-      border-radius: 16px; padding: 30px; width: 100%; max-width: 360px;
-      box-shadow: 0 0 30px rgba(176, 38, 255, 0.2), inset 0 0 15px rgba(176, 38, 255, 0.05);
+      border-radius: 16px; padding: 30px; width: 100%; max-width: 380px;
+      box-shadow: 0 0 40px rgba(176, 38, 255, 0.25), inset 0 0 15px rgba(176, 38, 255, 0.08);
       display: flex; flex-direction: column; gap: 20px; text-align: center;
       position: relative; overflow: hidden;
     }
@@ -70,7 +70,7 @@
     @keyframes scan-line { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
     .cf-title { font-family: var(--font-display); font-size: 0.95rem; color: var(--neon-cyan); letter-spacing: 1px; }
-    .cf-desc { font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono); }
+    .cf-desc { font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-mono); }
     
     .matrix-btn {
       background: rgba(0, 243, 255, 0.05); border: 1px solid var(--neon-cyan);
@@ -81,66 +81,80 @@
     
     .matrix-checkbox {
       width: 26px; height: 26px; border: 2px solid var(--neon-cyan); border-radius: 6px;
-      display: flex; justify-content: center; align-items: center; position: relative;
+      display: flex; justify-content: center; align-items: center; position: relative; flex-shrink: 0;
     }
     .matrix-checkbox.loading { border-color: transparent; border-top-color: var(--neon-purple); animation: spin 0.8s linear infinite; }
     .matrix-checkbox.success { border-color: var(--neon-green); background: rgba(0, 255, 136, 0.2); box-shadow: 0 0 10px var(--neon-green); }
     @keyframes spin { 100% { transform: rotate(360deg); } }
     
-    .matrix-label { font-family: var(--font-ui); font-size: 1rem; font-weight: 600; color: #fff; text-align: left; }
+    .matrix-label { font-family: var(--font-ui); font-size: 0.95rem; font-weight: 600; color: #fff; text-align: left; line-height: 1.2; }
     .cf-footer-secure { font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px; }
 
     /* --- MAIN APP WRAPPER --- */
     .app-wrapper {
       width: 100%; max-width: 520px; padding: 20px; z-index: 10;
-      display: none; flex-direction: column; gap: 18px;
+      display: none; flex-direction: column; gap: 16px;
       animation: zoom-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     .app-wrapper.active { display: flex; }
     @keyframes zoom-in { 0% { opacity: 0; transform: scale(0.92); filter: blur(8px); } 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
 
-    /* Header HUD */
+    /* HUD Header */
     .hud-header {
       background: var(--card-bg); backdrop-filter: blur(16px);
-      border: 1px solid var(--border-glow); border-radius: 14px; padding: 18px 22px;
+      border: 1px solid var(--border-glow); border-radius: 14px; padding: 16px 20px;
       display: flex; justify-content: space-between; align-items: center;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
-    .hud-title h1 { font-family: var(--font-display); font-size: 1.4rem; color: #fff; letter-spacing: 1px; text-shadow: 0 0 10px rgba(176, 38, 255, 0.5); }
-    .hud-title p { font-size: 0.75rem; color: var(--neon-cyan); font-family: var(--font-mono); }
+    .hud-title h1 { font-family: var(--font-display); font-size: 1.3rem; color: #fff; letter-spacing: 1px; text-shadow: 0 0 10px rgba(176, 38, 255, 0.5); }
+    .hud-title p { font-size: 0.72rem; color: var(--neon-cyan); font-family: var(--font-mono); }
     
     .hud-stats { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-    .status-badge { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; font-family: var(--font-mono); color: var(--neon-green); background: rgba(0, 255, 136, 0.1); padding: 3px 8px; border-radius: 20px; border: 1px solid rgba(0, 255, 136, 0.3); }
+    .status-badge { display: flex; align-items: center; gap: 6px; font-size: 0.68rem; font-family: var(--font-mono); color: var(--neon-green); background: rgba(0, 255, 136, 0.1); padding: 3px 8px; border-radius: 20px; border: 1px solid rgba(0, 255, 136, 0.3); }
     .status-dot { width: 6px; height: 6px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 8px var(--neon-green); animation: pulse 1.5s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-    .ping-text { font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-mono); }
+    .ping-text { font-size: 0.62rem; color: var(--text-muted); font-family: var(--font-mono); }
 
     /* Panels */
     .panel {
       background: var(--card-bg); backdrop-filter: blur(16px);
-      border: 1px solid var(--border-glow); border-radius: 14px; padding: 20px;
+      border: 1px solid var(--border-glow); border-radius: 14px; padding: 18px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative;
     }
     .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .panel-title { font-family: var(--font-display); font-size: 0.85rem; color: var(--neon-cyan); display: flex; align-items: center; gap: 8px; }
+    .panel-title { font-family: var(--font-display); font-size: 0.82rem; color: var(--neon-cyan); display: flex; align-items: center; gap: 8px; }
     .panel-title::before { content: ''; width: 6px; height: 6px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 8px var(--neon-cyan); }
 
-    /* Mode Switcher Tabs */
-    .mode-tabs { display: flex; background: rgba(0,0,0,0.4); border-radius: 8px; padding: 3px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
-    .tab-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); font-family: var(--font-ui); font-weight: 600; font-size: 0.8rem; padding: 6px; border-radius: 6px; cursor: pointer; transition: all 0.3s; }
+    /* Mode & Options Bar */
+    .options-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; }
+    .mode-tabs { display: flex; background: rgba(0,0,0,0.4); border-radius: 8px; padding: 3px; border: 1px solid rgba(255,255,255,0.05); flex: 1; }
+    .tab-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); font-family: var(--font-ui); font-weight: 600; font-size: 0.75rem; padding: 5px; border-radius: 6px; cursor: pointer; transition: all 0.3s; }
     .tab-btn.active { background: var(--neon-purple); color: #fff; box-shadow: 0 0 10px rgba(176, 38, 255, 0.4); }
 
-    /* Inputs & Textarea */
+    .engine-mode-select {
+      background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: var(--neon-cyan);
+      font-family: var(--font-mono); font-size: 0.72rem; padding: 6px 10px; border-radius: 8px; outline: none; cursor: pointer;
+    }
+
+    /* Input & Action Buttons */
+    .input-wrapper { position: relative; margin-bottom: 12px; }
     .input-box {
-      width: 100%; padding: 14px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1);
+      width: 100%; padding: 14px 45px 14px 14px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1);
       border-radius: 10px; color: #fff; font-family: var(--font-mono); font-size: 0.82rem; outline: none; transition: all 0.3s; resize: none;
     }
     .input-box:focus { border-color: var(--neon-purple); box-shadow: 0 0 15px rgba(176, 38, 255, 0.25); }
 
-    .btn-group { display: flex; gap: 10px; margin-top: 12px; }
+    .paste-btn {
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      background: rgba(176, 38, 255, 0.15); border: 1px solid rgba(176, 38, 255, 0.4); color: var(--neon-purple);
+      padding: 6px 10px; border-radius: 6px; font-size: 0.68rem; font-family: var(--font-mono); cursor: pointer; transition: 0.2s;
+    }
+    .paste-btn:hover { background: rgba(176, 38, 255, 0.3); color: #fff; }
+
+    .btn-group { display: flex; gap: 8px; }
     .btn {
-      flex: 1; padding: 14px; border: none; border-radius: 10px; font-family: var(--font-display);
-      font-weight: 700; font-size: 0.85rem; letter-spacing: 1px; cursor: pointer; display: flex;
+      flex: 1; padding: 13px; border: none; border-radius: 10px; font-family: var(--font-display);
+      font-weight: 700; font-size: 0.82rem; letter-spacing: 1px; cursor: pointer; display: flex;
       justify-content: center; align-items: center; gap: 8px; transition: all 0.25s;
     }
     .btn-main { background: linear-gradient(135deg, var(--neon-purple), #6366f1); color: #fff; box-shadow: 0 0 20px rgba(176, 38, 255, 0.4); }
@@ -152,15 +166,30 @@
     .btn-sec:hover { background: rgba(0, 243, 255, 0.1); }
     .btn-sec:disabled { border-color: #222; color: #555; cursor: not-allowed; }
 
+    /* QR Code Modal / Container Preview */
+    .qr-preview-box {
+      margin-top: 10px; background: rgba(0,0,0,0.4); border: 1px dashed rgba(0, 243, 255, 0.3);
+      border-radius: 8px; padding: 10px; display: none; align-items: center; gap: 12px;
+      animation: fadeIn 0.3s ease;
+    }
+    .qr-preview-box.active { display: flex; }
+    .qr-image { width: 55px; height: 55px; background: #fff; padding: 3px; border-radius: 4px; }
+    .qr-info { font-size: 0.72rem; font-family: var(--font-mono); color: var(--text-muted); word-break: break-all; }
+    .qr-info span { color: var(--neon-cyan); display: block; font-weight: bold; }
+
     /* Terminal Console */
     .terminal { background: #010103; border-color: rgba(0, 243, 255, 0.15); }
-    .term-window { height: 130px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.73rem; line-height: 1.5; color: var(--text-muted); display: flex; flex-direction: column; gap: 4px; }
+    .term-window { height: 110px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.5; color: var(--text-muted); display: flex; flex-direction: column; gap: 4px; }
     .log-sys { color: #888; } .log-warn { color: #f59e0b; } .log-succ { color: var(--neon-green); text-shadow: 0 0 6px rgba(0,255,136,0.4); } .log-err { color: var(--neon-red); text-shadow: 0 0 6px rgba(255,42,42,0.4); } .log-info { color: var(--neon-cyan); }
     .blinking-cursor { display: inline-block; width: 5px; height: 11px; background: var(--neon-cyan); animation: blink 1s step-end infinite; margin-left: 4px; }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-    /* History List */
-    .history-list { display: flex; flex-direction: column; gap: 6px; max-height: 130px; overflow-y: auto; }
+    /* History List & Actions */
+    .history-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .clear-history-btn { font-size: 0.65rem; background: transparent; border: none; color: var(--neon-red); cursor: pointer; font-family: var(--font-mono); }
+    .clear-history-btn:hover { text-decoration: underline; }
+    
+    .history-list { display: flex; flex-direction: column; gap: 6px; max-height: 110px; overflow-y: auto; }
     .history-item { background: rgba(255,255,255,0.02); padding: 8px 12px; border-radius: 6px; border-left: 3px solid var(--neon-purple); display: flex; justify-content: space-between; align-items: center; }
     .history-info { display: flex; flex-direction: column; gap: 2px; overflow: hidden; max-width: 320px; }
     .history-item span.url { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -168,23 +197,23 @@
     .empty-history { font-size: 0.78rem; color: var(--text-muted); text-align: center; font-style: italic; padding: 10px 0; }
 
     /* Footer */
-    .footer { text-align: center; margin-top: 5px; }
+    .footer { text-align: center; margin-top: 2px; }
     .footer .author { font-family: var(--font-display); font-size: 0.95rem; color: var(--neon-cyan); font-weight: 900; letter-spacing: 2px; text-shadow: 0 0 10px rgba(0, 243, 255, 0.4); }
-    .footer .sub { font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono); margin-top: 2px; }
+    .footer .sub { font-size: 0.68rem; color: var(--text-muted); font-family: var(--font-mono); margin-top: 2px; }
     
     ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: rgba(176, 38, 255, 0.3); border-radius: 10px; }
   </style>
 </head>
 <body>
 
-  <!-- CYBER CAPTCHA OVERLAY -->
+  <!-- NEURAL MATRIX VERIFICATION OVERLAY (NEW STYLE) -->
   <div id="cf-overlay" class="cf-overlay">
     <div class="cf-box">
-      <div class="cf-title">NEURAL SECURITY GATE</div>
-      <div class="cf-desc">Verifikasi integritas perangkat untuk membuka akses mesin bypass.</div>
+      <div class="cf-title">OTORISASI NEURAL MATRIX</div>
+      <div class="cf-desc">Konfirmasi Enkripsi & Akses Protokol Keamanan V4.0</div>
       <div class="matrix-btn" id="matrix-trigger">
         <div id="matrix-checkbox" class="matrix-checkbox"></div>
-        <div class="matrix-label">Saya bukan bot otomatis</div>
+        <div class="matrix-label">Inisialisasi Keamanan Perangkat</div>
       </div>
       <div class="cf-footer-secure">RAMZYY03 Secure Enclave Protocol</div>
     </div>
@@ -197,11 +226,11 @@
     <div class="hud-header">
       <div class="hud-title">
         <h1>CYBER BYPASS</h1>
-        <p>Universal Link Decrypter</p>
+        <p>Universal Decrypter v4.0</p>
       </div>
       <div class="hud-stats">
-        <div class="status-badge"><div class="status-dot"></div>SYS ONLINE</div>
-        <div class="ping-text" id="ping-monitor">Latency: 14ms</div>
+        <div class="status-badge"><div class="status-dot"></div>SYS SECURE</div>
+        <div class="ping-text" id="ping-monitor">Latency: 12ms</div>
       </div>
     </div>
 
@@ -211,18 +240,28 @@
         <div class="panel-title">EXTRACTOR MATRIX</div>
       </div>
 
-      <!-- Mode Switcher -->
-      <div class="mode-tabs">
-        <button class="tab-btn active" id="tab-single">Single Link Mode</button>
-        <button class="tab-btn" id="tab-batch">Batch Mode (Multi-Link)</button>
+      <!-- Mode & Engine Options Bar -->
+      <div class="options-bar">
+        <div class="mode-tabs">
+          <button class="tab-btn active" id="tab-single">Single Mode</button>
+          <button class="tab-btn" id="tab-batch">Batch Mode</button>
+        </div>
+        <select class="engine-mode-select" id="engine-mode">
+          <option value="auto">Engine: Auto-Detect</option>
+          <option value="deep">Engine: Deep Scan Base64</option>
+        </select>
       </div>
 
-      <!-- Input Single / Batch -->
+      <!-- Input Single / Batch with Clipboard Paste Feature -->
       <div id="container-single">
-        <input type="url" class="input-box" id="link-input" placeholder=">> Tempel URL Target (MediaFire / Safelink / Bit.ly)..." autocomplete="off">
+        <div class="input-wrapper">
+          <input type="url" class="input-box" id="link-input" placeholder=">> Tempel URL Target di sini..." autocomplete="off">
+          <button class="paste-btn" id="btn-paste">PASTE</button>
+        </div>
       </div>
+      
       <div id="container-batch" style="display: none;">
-        <textarea class="input-box" id="batch-input" rows="3" placeholder=">> Tempel banyak link di sini&#10;https://sfl.gl/xxx&#10;https://www.mediafire.com/file/xxx"></textarea>
+        <textarea class="input-box" id="batch-input" rows="3" placeholder=">> Tempel banyak link (1 link per baris)&#10;https://sfl.gl/xxx&#10;https://www.mediafire.com/file/xxx"></textarea>
       </div>
 
       <div class="btn-group">
@@ -235,6 +274,15 @@
           COPY
         </button>
       </div>
+
+      <!-- FITUR BARU: QR CODE PREVIEW SETELAH BERHASIL -->
+      <div class="qr-preview-box" id="qr-preview-box">
+        <img id="qr-img" class="qr-image" src="" alt="QR">
+        <div class="qr-info">
+          <span>QR Matrix Generated</span>
+          Scan untuk buka link di HP lain.
+        </div>
+      </div>
     </div>
 
     <!-- Terminal Console Panel -->
@@ -244,28 +292,50 @@
         <span id="clear-term" style="font-size: 0.65rem; cursor: pointer; color: var(--neon-red); font-family: var(--font-mono);">[CLEAR]</span>
       </div>
       <div class="term-window" id="term-window">
-        <div class="log-sys">> Neural engine initialized successfully. Ready for input...</div>
+        <div class="log-sys">> Neural engine initialized securely. Ready...</div>
       </div>
     </div>
 
-    <!-- History Panel -->
+    <!-- History Panel with Export Feature -->
     <div class="panel">
-      <div class="panel-header">
-        <div class="panel-title">SESSION CACHE</div>
+      <div class="history-actions">
+        <div class="panel-title" style="margin-bottom:0;">SESSION CACHE</div>
+        <div style="display:flex; gap:10px;">
+          <button class="clear-history-btn" id="btn-export" style="color:var(--neon-cyan);">[EXPORT .TXT]</button>
+          <button class="clear-history-btn" id="clear-history">[CLEAR CACHE]</button>
+        </div>
       </div>
-      <div class="history-list" id="history-list"></div>
+      <div class="history-list" id="history-list" style="margin-top:10px;"></div>
     </div>
 
     <!-- Footer -->
     <footer class="footer">
       <div class="author">AUTHOR RAMZYY03</div>
-      <div class="sub">Advanced Decryption Matrix Engine v3.0</div>
+      <div class="sub">Advanced Decryption Matrix Engine v4.0</div>
     </footer>
 
   </div>
 
   <script>
-    // --- VERIFICATION MATRIX SCRIPT ---
+    // --- AUDIO FX SYNTHESIZER (Cyber Sound Effects) ---
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playBeep(freq = 440, type = 'sine', duration = 0.08) {
+      try {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch(e) {}
+    }
+
+    // --- NEURAL MATRIX VERIFICATION (NEW PROMPT) ---
     const cfOverlay = document.getElementById('cf-overlay');
     const matrixTrigger = document.getElementById('matrix-trigger');
     const matrixCheckbox = document.getElementById('matrix-checkbox');
@@ -273,9 +343,11 @@
 
     matrixTrigger.addEventListener('click', () => {
       if (matrixCheckbox.classList.contains('loading') || matrixCheckbox.classList.contains('success')) return;
+      playBeep(600, 'triangle', 0.1);
       matrixCheckbox.classList.add('loading');
 
       setTimeout(() => {
+        playBeep(880, 'sine', 0.15);
         matrixCheckbox.classList.remove('loading');
         matrixCheckbox.classList.add('success');
         matrixCheckbox.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
@@ -290,42 +362,32 @@
       }, 1200);
     });
 
-    // --- PING MONITOR SIMULATOR ---
+    // --- PING MONITOR ---
     setInterval(() => {
-      const randomPing = Math.floor(Math.random() * (22 - 12 + 1)) + 12;
-      document.getElementById('ping-monitor').innerText = `Latency: ${randomPing}ms`;
+      const p = Math.floor(Math.random() * (18 - 9 + 1)) + 9;
+      document.getElementById('ping-monitor').innerText = `Latency: ${p}ms`;
     }, 4000);
 
-    // --- MODE SWITCHER (SINGLE VS BATCH) ---
+    // --- MODE SWITCHER ---
     const tabSingle = document.getElementById('tab-single');
     const tabBatch = document.getElementById('tab-batch');
     const containerSingle = document.getElementById('container-single');
     const containerBatch = document.getElementById('container-batch');
     let isBatchMode = false;
 
-    tabSingle.addEventListener('click', () => {
-      tabSingle.classList.add('active');
-      tabBatch.classList.remove('active');
-      containerSingle.style.display = 'block';
-      containerBatch.style.display = 'none';
-      isBatchMode = false;
-    });
+    tabSingle.addEventListener('click', () => { playBeep(500); tabSingle.classList.add('active'); tabBatch.classList.remove('active'); containerSingle.style.display = 'block'; containerBatch.style.display = 'none'; isBatchMode = false; });
+    tabBatch.addEventListener('click', () => { playBeep(500); tabBatch.classList.add('active'); tabSingle.classList.remove('active'); containerSingle.style.display = 'none'; containerBatch.style.display = 'block'; isBatchMode = true; });
 
-    tabBatch.addEventListener('click', () => {
-      tabBatch.classList.add('active');
-      tabSingle.classList.remove('active');
-      containerSingle.style.display = 'none';
-      containerBatch.style.display = 'block';
-      isBatchMode = true;
-    });
-
-    // --- APP LOGIC ---
+    // --- APP LOGIC & NEW FEATURES ---
     const btnDownload = document.getElementById('btn-download');
     const btnCopy = document.getElementById('btn-copy');
+    const btnPaste = document.getElementById('btn-paste');
     const linkInput = document.getElementById('link-input');
     const batchInput = document.getElementById('batch-input');
     const termWindow = document.getElementById('term-window');
     const historyList = document.getElementById('history-list');
+    const qrBox = document.getElementById('qr-preview-box');
+    const qrImg = document.getElementById('qr-img');
 
     let currentDirectLink = "";
 
@@ -341,13 +403,28 @@
     }
 
     document.getElementById('clear-term').addEventListener('click', () => {
+      playBeep(300);
       termWindow.innerHTML = '<div class="log-sys">> Console cleared. <span class="blinking-cursor"></span></div>';
     });
 
     const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
+    // FITUR 1: ONE-TAP CLIPBOARD PASTE
+    btnPaste.addEventListener('click', async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+        if (text) {
+          linkInput.value = text.trim();
+          playBeep(750, 'sine', 0.08);
+          addLog("Teks dari Clipboard berhasil ditempel.", "log-succ");
+        }
+      } catch (err) {
+        addLog("ERR: Izinkan akses clipboard pada browser Anda.", "log-err");
+      }
+    });
+
     function loadHistory() {
-      const h = JSON.parse(localStorage.getItem('mf_history_v3') || '[]');
+      const h = JSON.parse(localStorage.getItem('mf_history_v4') || '[]');
       historyList.innerHTML = '';
       if (h.length === 0) { historyList.innerHTML = '<div class="empty-history">Belum ada riwayat sesi ini.</div>'; return; }
       h.forEach(item => {
@@ -362,16 +439,46 @@
     }
 
     function saveHistory(url, type) {
-      const h = JSON.parse(localStorage.getItem('mf_history_v3') || '[]');
+      const h = JSON.parse(localStorage.getItem('mf_history_v4') || '[]');
       const time = new Date().toLocaleTimeString('id-ID', { hour12: false });
       h.unshift({ url, time, type }); 
-      if (h.length > 3) h.pop(); 
-      localStorage.setItem('mf_history_v3', JSON.stringify(h));
+      if (h.length > 5) h.pop(); 
+      localStorage.setItem('mf_history_v4', JSON.stringify(h));
       loadHistory();
     }
     loadHistory();
 
-    // Fungsi Eksekusi Bypass
+    // FITUR 2: CLEAR CACHE BUTTON
+    document.getElementById('clear-history').addEventListener('click', () => {
+      playBeep(300);
+      localStorage.removeItem('mf_history_v4');
+      loadHistory();
+      addLog("Session Cache berhasil dibersihkan.", "log-warn");
+    });
+
+    // FITUR 3: EXPORT CACHE TO TXT FILE
+    document.getElementById('btn-export').addEventListener('click', () => {
+      playBeep(900);
+      const h = JSON.parse(localStorage.getItem('mf_history_v4') || '[]');
+      if (h.length === 0) {
+        addLog("ERR: Cache kosong, tidak ada yang bisa diexport.", "log-err");
+        return;
+      }
+      let content = "=== RAMZYY03 BYPASS SESSION REPORT ===\n\n";
+      h.forEach((item, index) => {
+        content += `[${index+1}] Waktu: ${item.time}\nTipe: ${item.type}\nURL: ${item.url}\n-----------------------------------\n`;
+      });
+      const blob = new Blob([content], { type: 'text/plain' });
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = `Bypass_Report_${Date.now()}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      addLog("Laporan session cache berhasil di-export ke .txt", "log-succ");
+    });
+
     async function processBypass(url) {
       const response = await fetch('/api/extract', {
         method: 'POST',
@@ -382,13 +489,15 @@
     }
 
     btnDownload.addEventListener('click', async () => {
+      playBeep(700);
       btnCopy.disabled = true;
       currentDirectLink = "";
+      qrBox.classList.remove('active');
 
       if (!isBatchMode) {
-        // --- SINGLE MODE ---
         const url = linkInput.value.trim();
         if (!url || !url.startsWith('http')) {
+          playBeep(200, 'sawtooth', 0.2);
           addLog("ERR: Masukkan URL target yang valid (http/https).", "log-err");
           return;
         }
@@ -405,10 +514,15 @@
           if (data.success) {
             currentDirectLink = data.direct_link;
             btnCopy.disabled = false;
+            playBeep(1200, 'sine', 0.2);
+            
             addLog(`Tipe Protokol: [${data.type}]`, "log-info");
             addLog("Payload decrypter berhasil di-generate!", "log-succ");
-            addLog("Memanggil hidden iframe untuk unduhan siluman...", "log-sys");
             
+            // FITUR 4: GENERATE LIVE QR CODE UNTUK DIRECT LINK
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(data.direct_link)}`;
+            qrBox.classList.add('active');
+
             saveHistory(url, data.type);
 
             // Siluman Download via iFrame
@@ -421,9 +535,11 @@
             }, 800);
 
           } else {
+            playBeep(200, 'sawtooth', 0.2);
             addLog(`ERR: ${data.message}`, "log-err");
           }
         } catch (err) {
+          playBeep(200, 'sawtooth', 0.2);
           addLog("ERR: Gagal terhubung ke server backend.", "log-err");
         } finally {
           btnDownload.disabled = false;
@@ -431,11 +547,12 @@
         }
 
       } else {
-        // --- BATCH MODE (MULTI-LINK) ---
+        // --- BATCH MODE ---
         const rawText = batchInput.value.trim();
         const urls = rawText.split('\n').map(u => u.trim()).filter(u => u.startsWith('http'));
 
         if (urls.length === 0) {
+          playBeep(200, 'sawtooth', 0.2);
           addLog("ERR: Tidak ada URL valid di dalam Batch Box.", "log-err");
           return;
         }
@@ -446,15 +563,15 @@
 
         for (let i = 0; i < urls.length; i++) {
           const targetUrl = urls[i];
-          addLog(`[${i+1}/${urls.length}] Bypass: ${targetUrl.substring(0, 25)}...`, "log-sys");
+          addLog(`[${i+1}/${urls.length}] Bypass: ${targetUrl.substring(0, 22)}...`, "log-sys");
           
           try {
             const data = await processBypass(targetUrl);
             if (data.success) {
+              playBeep(1000, 'sine', 0.1);
               addLog(`[${i+1}] SUCCESS: [${data.type}]`, "log-succ");
               saveHistory(targetUrl, data.type);
               
-              // Trigger auto download berjarak tipis agar tidak bentrok
               setTimeout(() => {
                 const iframe = document.createElement('iframe');
                 iframe.style.display = 'none';
@@ -467,7 +584,7 @@
           } catch(e) {
             addLog(`[${i+1}] ERR: Koneksi terputus.`, "log-err");
           }
-          await sleep(500);
+          await sleep(400);
         }
 
         addLog("Batch Queue selesai dieksekusi.", "log-succ");
@@ -479,6 +596,7 @@
     btnCopy.addEventListener('click', () => {
       if (currentDirectLink) {
         navigator.clipboard.writeText(currentDirectLink).then(() => {
+          playBeep(950, 'sine', 0.1);
           addLog("Direct link berhasil disalin!", "log-succ");
           btnCopy.innerHTML = "COPIED!";
           setTimeout(() => { btnCopy.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> COPY`; }, 2000);
