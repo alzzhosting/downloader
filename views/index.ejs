@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AUTO EXTRACT DOWNLOADER</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card: #151b2b;
+      --primary: #3b82f6;
+      --primary-glow: rgba(59, 130, 246, 0.5);
+      --text: #f3f4f6;
+      --text-dim: #9ca3af;
+      --border: #2dd4bf;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+
+    .container {
+      background: var(--card);
+      border: 1px solid rgba(45, 212, 191, 0.2);
+      border-radius: 20px;
+      padding: 30px;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .header { text-align: center; margin-bottom: 25px; }
+    .header h1 { font-size: 1.5rem; color: var(--border); letter-spacing: 1px; text-shadow: 0 0 10px rgba(45, 212, 191, 0.4); }
+    .header p { font-size: 0.85rem; color: var(--text-dim); margin-top: 5px; }
+
+    .input-group { display: flex; flex-direction: column; gap: 15px; }
+    
+    input[type="url"] {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border 0.3s;
+    }
+    input[type="url"]:focus { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
+
+    .btn-download {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--primary), #2563eb);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-download:hover { transform: translateY(-2px); box-shadow: 0 5px 15px var(--primary-glow); }
+    .btn-download:active { transform: scale(0.98); }
+    .btn-download:disabled { background: #374151; color: #9ca3af; cursor: not-allowed; box-shadow: none; transform: none; }
+
+    .status-box {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      display: none;
+      word-break: break-all;
+    }
+    .status-box.active { display: block; animation: fadeIn 0.3s; }
+    .status-loading { background: rgba(59, 130, 246, 0.1); border: 1px solid var(--primary); color: var(--primary); }
+    .status-success { background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; color: #10b981; }
+    .status-error { background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>BYPASS DOWNLOADER</h1>
+      <p>Tempel link MediaFire, unduh otomatis tanpa iklan/redirect.</p>
+    </div>
+
+    <div class="input-group">
+      <input type="url" id="link-input" placeholder="https://www.mediafire.com/file/..." required>
+      <button class="btn-download" id="btn-download">EKSTRAK & UNDUH</button>
+    </div>
+
+    <div id="status-box" class="status-box"></div>
+  </div>
+
+  <script>
+    const btnDownload = document.getElementById('btn-download');
+    const linkInput = document.getElementById('link-input');
+    const statusBox = document.getElementById('status-box');
+
+    function showStatus(message, type) {
+      statusBox.className = `status-box active status-${type}`;
+      statusBox.innerText = message;
+    }
+
+    btnDownload.addEventListener('click', async () => {
+      const url = linkInput.value.trim();
+
+      if (!url) {
+        showStatus('Harap masukkan link terlebih dahulu.', 'error');
+        return;
+      }
+
+      // State Loading
+      btnDownload.disabled = true;
+      btnDownload.innerText = 'MEMPROSES...';
+      showStatus('Mengekstrak direct link dari server...', 'loading');
+
+      try {
+        const response = await fetch('/api/extract', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: url })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          showStatus('Berhasil! Unduhan akan segera dimulai...', 'success');
+          
+          // Memulai unduhan secara otomatis di latar belakang
+          const a = document.createElement('a');
+          a.href = data.direct_link;
+          a.style.display = 'none';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+
+        } else {
+          showStatus(`Gagal: ${data.message}`, 'error');
+        }
+      } catch (err) {
+        showStatus('Terjadi kesalahan jaringan atau server mati.', 'error');
+      } finally {
+        // Reset Button
+        btnDownload.disabled = false;
+        btnDownload.innerText = 'EKSTRAK & UNDUH';
+      }
+    });
+  </script>
+</body>
+</html>
