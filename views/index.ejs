@@ -3,244 +3,211 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CYBER BYPASS ENGINE V6.0 - by Ramzyy03</title>
+  <title>FIVEM HUD BYPASS ENGINE</title>
+  <!-- Google Fonts ala FiveM / Gaming HUD -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap');
-
     :root {
-      --bg-main: #010104;
-      --card-bg: rgba(10, 10, 18, 0.88);
-      --neon-cyan: #00f3ff;
-      --neon-purple: #b026ff;
-      --neon-green: #00ff88;
-      --neon-red: #ff2a2a;
-      --text-main: #f8fafc;
-      --text-muted: #64748b;
-      --border-glow: rgba(176, 38, 255, 0.3);
-      --font-ui: 'Rajdhani', sans-serif;
-      --font-mono: 'Fira Code', monospace;
-      --font-display: 'Orbitron', sans-serif;
+      --bg-color: #0c0d12;
+      --card-bg: #141620;
+      --border-color: #232738;
+      --accent-cyan: #00e5ff;
+      --accent-purple: #9c27b0;
+      --accent-green: #00e676;
+      --accent-red: #ff5252;
+      --text-main: #ffffff;
+      --text-muted: #8c92a4;
+      --font-hud: 'Montserrat', sans-serif;
+      --font-mono: 'Share Tech Mono', monospace;
     }
-
-    body.theme-cyan { --neon-purple: #00f3ff; --border-glow: rgba(0, 243, 255, 0.3); }
-    body.theme-green { --neon-purple: #00ff88; --border-glow: rgba(0, 255, 136, 0.3); }
-    body.theme-orange { --neon-purple: #ff7700; --border-glow: rgba(255, 119, 0, 0.3); }
-    body.theme-purple { --neon-purple: #b026ff; --border-glow: rgba(176, 38, 255, 0.3); }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background-color: var(--bg-main);
+      background-color: var(--bg-color);
       color: var(--text-main);
-      font-family: var(--font-ui);
+      font-family: var(--font-hud);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 15px;
       overflow-x: hidden;
     }
 
-    /* Matrix Rain Canvas */
-    #matrix-canvas {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      z-index: 1; pointer-events: none; opacity: 0.18;
-    }
-
-    /* Cyber Scanline */
-    body::after {
-      content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
-      z-index: 2; background-size: 100% 3px, 3px 100%; pointer-events: none;
-    }
-
-    /* CAPTCHA OVERLAY */
+    /* --- CAPTCHA OVERLAY (FIVEM STYLE) --- */
     .cf-overlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(1, 1, 4, 0.96); backdrop-filter: blur(16px);
+      background: rgba(12, 13, 18, 0.95);
       z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.3s ease;
     }
     .cf-overlay.hidden { opacity: 0; pointer-events: none; }
     
     .cf-box {
-      background: linear-gradient(135deg, rgba(15, 15, 25, 0.95), rgba(8, 8, 14, 0.98));
-      border: 1px solid var(--neon-purple); border-radius: 16px; padding: 25px; width: 100%; max-width: 360px;
-      box-shadow: 0 0 40px var(--border-glow); display: flex; flex-direction: column; gap: 16px; text-align: center;
-      z-index: 3; position: relative;
+      background: var(--card-bg);
+      border: 2px solid var(--accent-cyan);
+      border-radius: 6px; padding: 24px; width: 100%; max-width: 340px;
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+      display: flex; flex-direction: column; gap: 14px; text-align: center;
     }
-    .cf-title { font-family: var(--font-display); font-size: 0.9rem; color: var(--neon-cyan); letter-spacing: 1px; }
+    .cf-title { font-size: 0.95rem; font-weight: 900; color: var(--accent-cyan); letter-spacing: 1px; text-transform: uppercase; }
     
     .captcha-display {
-      background: #000; border: 1px dashed var(--neon-purple); border-radius: 8px;
-      padding: 12px; font-family: var(--font-mono); font-size: 1.5rem; font-weight: bold;
-      color: var(--neon-cyan); letter-spacing: 6px; user-select: none;
+      background: #08090d; border: 1px solid var(--border-color); border-radius: 4px;
+      padding: 10px; font-family: var(--font-mono); font-size: 1.4rem; font-weight: bold;
+      color: var(--accent-cyan); letter-spacing: 5px;
       display: flex; justify-content: center; align-items: center; gap: 10px;
     }
-    .refresh-captcha { background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; }
+    .refresh-captcha { background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; }
     .refresh-captcha:hover { color: #fff; }
 
     .captcha-input {
-      width: 100%; padding: 12px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 8px; color: #fff; font-family: var(--font-mono); font-size: 1rem; text-align: center; outline: none; letter-spacing: 2px;
+      width: 100%; padding: 12px; background: #08090d; border: 1px solid var(--border-color);
+      border-radius: 4px; color: #fff; font-family: var(--font-mono); font-size: 1rem; text-align: center; outline: none;
+      letter-spacing: 2px; text-transform: uppercase;
     }
-    .captcha-input:focus { border-color: var(--neon-purple); box-shadow: 0 0 10px var(--border-glow); }
+    .captcha-input:focus { border-color: var(--accent-cyan); }
 
     .captcha-btn {
-      width: 100%; padding: 12px; background: linear-gradient(135deg, var(--neon-purple), #6366f1);
-      border: none; border-radius: 8px; color: #fff; font-family: var(--font-display); font-weight: 700; cursor: pointer; transition: 0.2s;
+      width: 100%; padding: 12px; background: var(--accent-cyan);
+      border: none; border-radius: 4px; color: #000; font-family: var(--font-hud); font-weight: 900;
+      font-size: 0.85rem; text-transform: uppercase; cursor: pointer; transition: 0.2s;
     }
-    .captcha-btn:hover { transform: translateY(-2px); box-shadow: 0 0 15px var(--border-glow); }
-    .cf-footer-secure { font-size: 0.68rem; color: var(--text-muted); font-family: var(--font-mono); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; }
+    .captcha-btn:hover { background: #00b8d4; }
+    .cf-footer-secure { font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-mono); border-top: 1px solid var(--border-color); padding-top: 8px; text-transform: uppercase; }
 
-    /* MAIN APP WRAPPER */
+    /* --- MAIN APP WRAPPER (LIGHTWEIGHT & SHARP) --- */
     .app-wrapper {
-      width: 100%; max-width: 540px; padding: 20px; z-index: 10;
-      display: none; flex-direction: column; gap: 14px;
-      animation: zoom-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      width: 100%; max-width: 480px; display: none; flex-direction: column; gap: 12px;
+      animation: fadeIn 0.3s ease forwards;
     }
     .app-wrapper.active { display: flex; }
-    @keyframes zoom-in { 0% { opacity: 0; transform: scale(0.92); filter: blur(8px); } 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
     /* HUD Header */
     .hud-header {
-      background: var(--card-bg); backdrop-filter: blur(16px);
-      border: 1px solid var(--border-glow); border-radius: 14px; padding: 14px 18px;
-      display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      background: var(--card-bg);
+      border: 1px solid var(--border-color); border-left: 4px solid var(--accent-cyan);
+      border-radius: 4px; padding: 12px 16px;
+      display: flex; justify-content: space-between; align-items: center;
     }
-    .hud-title h1 { font-family: var(--font-display); font-size: 1.25rem; color: #fff; letter-spacing: 1px; text-shadow: 0 0 10px var(--border-glow); }
-    .hud-title p { font-size: 0.7rem; color: var(--neon-cyan); font-family: var(--font-mono); }
+    .hud-title h1 { font-size: 1.1rem; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; }
+    .hud-title p { font-size: 0.65rem; color: var(--accent-cyan); font-family: var(--font-mono); text-transform: uppercase; }
     
-    .hud-stats { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-    .status-badge { display: flex; align-items: center; gap: 6px; font-size: 0.65rem; font-family: var(--font-mono); color: var(--neon-green); background: rgba(0, 255, 136, 0.1); padding: 2px 8px; border-radius: 20px; border: 1px solid rgba(0, 255, 136, 0.3); }
-    .status-dot { width: 5px; height: 5px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 6px var(--neon-green); animation: pulse 1.5s infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-    /* Quick Ticker Marquee */
-    .ticker-bar {
-      background: rgba(0, 243, 255, 0.05); border: 1px solid rgba(0, 243, 255, 0.15); border-radius: 8px;
-      padding: 6px 12px; font-size: 0.7rem; font-family: var(--font-mono); color: var(--neon-cyan);
-      overflow: hidden; white-space: nowrap; box-shadow: inset 0 0 10px rgba(0, 243, 255, 0.03);
-    }
-    .ticker-bar span { display: inline-block; padding-left: 100%; animation: ticker 22s linear infinite; }
-    @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+    .status-badge { display: flex; align-items: center; gap: 5px; font-size: 0.65rem; font-family: var(--font-mono); color: var(--accent-green); background: rgba(0, 230, 118, 0.1); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(0, 230, 118, 0.3); text-transform: uppercase; }
+    .status-dot { width: 5px; height: 5px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 5px var(--accent-green); }
 
     /* Panels */
     .panel {
-      background: var(--card-bg); backdrop-filter: blur(16px);
-      border: 1px solid var(--border-glow); border-radius: 14px; padding: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color); border-radius: 4px; padding: 14px;
+      position: relative;
     }
     .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .panel-title { font-family: var(--font-display); font-size: 0.8rem; color: var(--neon-cyan); display: flex; align-items: center; gap: 8px; }
-    .panel-title::before { content: ''; width: 6px; height: 6px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 6px var(--neon-cyan); }
+    .panel-title { font-size: 0.75rem; font-weight: 900; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px; }
 
     /* Controls Bar */
     .controls-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
     .control-select, .control-input {
-      background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: var(--text-main);
-      font-family: var(--font-mono); font-size: 0.72rem; padding: 7px 10px; border-radius: 8px; outline: none; width: 100%;
+      background: #08090d; border: 1px solid var(--border-color); color: var(--text-main);
+      font-family: var(--font-mono); font-size: 0.7rem; padding: 8px; border-radius: 4px; outline: none; width: 100%; text-transform: uppercase;
     }
-    .control-select:focus, .control-input:focus { border-color: var(--neon-purple); }
+    .control-select:focus { border-color: var(--accent-cyan); }
 
-    /* Options & Toggles Bar */
-    .toggles-bar { display: flex; gap: 10px; font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-muted); margin-bottom: 10px; align-items: center; flex-wrap: wrap; }
-    .toggles-bar label { display: flex; align-items: center; gap: 4px; cursor: pointer; }
-    .toggles-bar input[type="checkbox"] { accent-color: var(--neon-purple); cursor: pointer; }
+    /* Toggles Bar */
+    .toggles-bar { display: flex; gap: 12px; font-size: 0.68rem; font-family: var(--font-mono); color: var(--text-muted); margin-bottom: 10px; align-items: center; flex-wrap: wrap; text-transform: uppercase; }
+    .toggles-bar label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+    .toggles-bar input[type="checkbox"] { accent-color: var(--accent-cyan); cursor: pointer; }
 
     /* Input & Buttons */
     .input-wrapper { position: relative; margin-bottom: 10px; }
     .input-box {
-      width: 100%; padding: 13px 45px 13px 13px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px; color: #fff; font-family: var(--font-mono); font-size: 0.8rem; outline: none; transition: all 0.3s; resize: none;
+      width: 100%; padding: 12px 45px 12px 10px; background: #08090d; border: 1px solid var(--border-color);
+      border-radius: 4px; color: #fff; font-family: var(--font-mono); font-size: 0.78rem; outline: none; transition: 0.2s; resize: none;
     }
-    .input-box:focus { border-color: var(--neon-purple); box-shadow: 0 0 15px var(--border-glow); }
+    .input-box:focus { border-color: var(--accent-cyan); }
 
     .paste-btn {
-      position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-      background: rgba(176, 38, 255, 0.15); border: 1px solid var(--border-glow); color: var(--neon-purple);
-      padding: 5px 8px; border-radius: 6px; font-size: 0.65rem; font-family: var(--font-mono); cursor: pointer; transition: 0.2s;
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.3); color: var(--accent-cyan);
+      padding: 5px 8px; border-radius: 3px; font-size: 0.65rem; font-family: var(--font-mono); cursor: pointer; text-transform: uppercase;
     }
-    .paste-btn:hover { background: var(--neon-purple); color: #fff; }
+    .paste-btn:hover { background: var(--accent-cyan); color: #000; }
 
     .btn-group { display: flex; gap: 8px; }
     .btn {
-      flex: 1; padding: 12px; border: none; border-radius: 10px; font-family: var(--font-display);
-      font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; display: flex;
-      justify-content: center; align-items: center; gap: 8px; transition: all 0.25s;
+      flex: 1; padding: 11px; border: none; border-radius: 4px; font-family: var(--font-hud);
+      font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; display: flex;
+      justify-content: center; align-items: center; gap: 6px; transition: 0.2s;
     }
-    .btn-main { background: linear-gradient(135deg, var(--neon-purple), #6366f1); color: #fff; box-shadow: 0 0 20px var(--border-glow); }
-    .btn-main:hover { transform: translateY(-2px); box-shadow: 0 0 25px var(--border-glow); }
-    .btn-main:active { transform: scale(0.97); }
-    .btn-main:disabled { background: #222; color: #555; box-shadow: none; cursor: not-allowed; transform: none; }
+    .btn-main { background: var(--accent-cyan); color: #000; box-shadow: 0 0 10px rgba(0, 229, 255, 0.2); }
+    .btn-main:hover { background: #00b8d4; }
+    .btn-main:disabled { background: #1a1c26; color: #4a4f66; cursor: not-allowed; box-shadow: none; }
 
-    .btn-sec { background: transparent; border: 1px solid var(--neon-cyan); color: var(--neon-cyan); }
-    .btn-sec:hover { background: rgba(0, 243, 255, 0.1); }
-    .btn-sec:disabled { border-color: #222; color: #555; cursor: not-allowed; }
+    .btn-sec { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); }
+    .btn-sec:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+    .btn-sec:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* Benchmark & QR Box */
-    .benchmark-info { font-size: 0.68rem; font-family: var(--font-mono); color: var(--neon-green); margin-top: 6px; display: none; }
+    /* QR Code Matrix (DIPERBESAR) */
     .qr-preview-box {
-      margin-top: 10px; background: rgba(0,0,0,0.4); border: 1px dashed rgba(0, 243, 255, 0.3);
-      border-radius: 8px; padding: 8px; display: none; align-items: center; gap: 10px;
+      margin-top: 12px; background: #08090d; border: 1px dashed var(--accent-cyan);
+      border-radius: 4px; padding: 14px; display: none; align-items: center; gap: 14px;
     }
     .qr-preview-box.active { display: flex; }
-    .qr-image { width: 50px; height: 50px; background: #fff; padding: 2px; border-radius: 4px; }
-    .qr-info { font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-muted); word-break: break-all; }
-    .qr-info span { color: var(--neon-cyan); display: block; font-weight: bold; }
+    .qr-image { width: 130px; height: 130px; background: #fff; padding: 4px; border-radius: 3px; flex-shrink: 0; }
+    .qr-info { font-size: 0.75rem; font-family: var(--font-mono); color: var(--text-muted); word-break: break-all; }
+    .qr-info span { color: var(--accent-cyan); display: block; font-weight: bold; font-size: 0.8rem; margin-bottom: 4px; text-transform: uppercase; }
 
     /* Terminal Console */
-    .terminal { background: #010103; border-color: rgba(0, 243, 255, 0.15); transition: 0.3s; }
-    .terminal.fullscreen { position: fixed; top: 10px; left: 10px; right: 10px; bottom: 10px; z-index: 99999; height: auto !important; }
-    .term-window { height: 100px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.7rem; line-height: 1.4; color: var(--text-muted); display: flex; flex-direction: column; gap: 3px; }
-    .terminal.fullscreen .term-window { height: calc(100vh - 80px); }
-    .log-sys { color: #888; } .log-warn { color: #f59e0b; } .log-succ { color: var(--neon-green); text-shadow: 0 0 6px rgba(0,255,136,0.4); } .log-err { color: var(--neon-red); text-shadow: 0 0 6px rgba(255,42,42,0.4); } .log-info { color: var(--neon-cyan); }
-    .blinking-cursor { display: inline-block; width: 5px; height: 11px; background: var(--neon-cyan); animation: blink 1s step-end infinite; margin-left: 4px; }
+    .terminal { background: #08090d; border-color: var(--border-color); }
+    .term-window { height: 95px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.68rem; line-height: 1.4; color: var(--text-muted); display: flex; flex-direction: column; gap: 3px; }
+    .log-sys { color: #8c92a4; } .log-warn { color: #ffb300; } .log-succ { color: var(--accent-green); } .log-err { color: var(--accent-red); } .log-info { color: var(--accent-cyan); }
+    .blinking-cursor { display: inline-block; width: 5px; height: 10px; background: var(--accent-cyan); animation: blink 1s step-end infinite; margin-left: 3px; }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-    /* History & Favorites & Clipboard Stack */
-    .sub-tabs { display: flex; gap: 6px; margin-bottom: 8px; }
-    .sub-tab-btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); font-size: 0.68rem; font-family: var(--font-mono); padding: 4px 8px; border-radius: 6px; cursor: pointer; }
-    .sub-tab-btn.active { background: var(--neon-cyan); color: #000; font-weight: bold; }
+    /* History & Lists */
+    .sub-tabs { display: flex; gap: 4px; margin-bottom: 8px; }
+    .sub-tab-btn { background: #08090d; border: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.65rem; font-family: var(--font-mono); padding: 4px 8px; border-radius: 3px; cursor: pointer; text-transform: uppercase; }
+    .sub-tab-btn.active { background: var(--accent-cyan); color: #000; font-weight: bold; border-color: var(--accent-cyan); }
 
     .history-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-    .action-link-btn { font-size: 0.65rem; background: transparent; border: none; color: var(--neon-cyan); cursor: pointer; font-family: var(--font-mono); }
+    .action-link-btn { font-size: 0.65rem; background: transparent; border: none; color: var(--accent-cyan); cursor: pointer; font-family: var(--font-mono); text-transform: uppercase; }
     .action-link-btn:hover { text-decoration: underline; }
     
-    .list-container { display: flex; flex-direction: column; gap: 5px; max-height: 100px; overflow-y: auto; }
-    .list-item { background: rgba(255,255,255,0.02); padding: 7px 10px; border-radius: 6px; border-left: 3px solid var(--neon-purple); display: flex; justify-content: space-between; align-items: center; }
-    .list-item-info { display: flex; flex-direction: column; gap: 2px; overflow: hidden; max-width: 300px; }
-    .list-item span.url { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .list-item span.meta { font-size: 0.6rem; color: var(--neon-green); font-weight: 600; font-family: var(--font-mono); }
-    .empty-msg { font-size: 0.75rem; color: var(--text-muted); text-align: center; font-style: italic; padding: 8px 0; }
+    .list-container { display: flex; flex-direction: column; gap: 4px; max-height: 90px; overflow-y: auto; }
+    .list-item { background: #08090d; padding: 6px 10px; border-radius: 3px; border-left: 3px solid var(--accent-cyan); display: flex; justify-content: space-between; align-items: center; }
+    .list-item-info { display: flex; flex-direction: column; gap: 2px; overflow: hidden; max-width: 280px; }
+    .list-item span.url { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .list-item span.meta { font-size: 0.58rem; color: var(--accent-green); font-weight: 600; font-family: var(--font-mono); text-transform: uppercase; }
+    .empty-msg { font-size: 0.7rem; color: var(--text-muted); text-align: center; font-style: italic; padding: 6px 0; font-family: var(--font-mono); text-transform: uppercase; }
 
     /* Footer */
     .footer { text-align: center; margin-top: 2px; }
-    .footer .author { font-family: var(--font-display); font-size: 0.9rem; color: var(--neon-cyan); font-weight: 900; letter-spacing: 2px; text-shadow: 0 0 10px rgba(0, 243, 255, 0.4); }
-    .footer .sub { font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-mono); margin-top: 2px; }
+    .footer .author { font-size: 0.75rem; color: var(--accent-cyan); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
+    .footer .sub { font-size: 0.6rem; color: var(--text-muted); font-family: var(--font-mono); text-transform: uppercase; }
     
-    ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 10px; }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-thumb { background: var(--border-color); }
   </style>
 </head>
-<body class="theme-purple">
+<body>
 
-  <!-- MATRIX RAIN BACKGROUND -->
-  <canvas id="matrix-canvas"></canvas>
-
-  <!-- CODE MATCHING CAPTCHA OVERLAY -->
+  <!-- CAPTCHA OVERLAY -->
   <div id="cf-overlay" class="cf-overlay">
     <div class="cf-box">
-      <div class="cf-title">SECURITY CODE VERIFICATION</div>
-      <div style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">Ketik ulang kode acak di bawah ini untuk membuka akses:</div>
+      <div class="cf-title">FIVEM ACCESS GATE</div>
+      <div style="font-size:0.7rem; color:var(--text-muted); font-family:var(--font-mono);">MASUKKAN KODE KEAMANAN:</div>
       
       <div class="captcha-display">
-        <span id="captcha-code-text">A7K9</span>
-        <button class="refresh-captcha" id="btn-refresh-captcha" title="Ganti Kode">🔄</button>
+        <span id="captcha-code-text">F9X2</span>
+        <button class="refresh-captcha" id="btn-refresh-captcha" title="Ganti">🔄</button>
       </div>
 
-      <input type="text" class="captcha-input" id="captcha-input" placeholder="Masukkan 4 digit kode..." autocomplete="off" maxlength="4">
-      <button class="captcha-btn" id="btn-verify-captcha">VERIFIKASI KODE</button>
+      <input type="text" class="captcha-input" id="captcha-input" placeholder="4 DIGIT KODE" autocomplete="off" maxlength="4">
+      <button class="captcha-btn" id="btn-verify-captcha">AUTORISASI</button>
       
-      <div class="cf-footer-secure">RAMZYY03 Secure Enclave Protocol</div>
+      <div class="cf-footer-secure">RAMZYY03 SECURE CORE</div>
     </div>
   </div>
 
@@ -250,173 +217,119 @@
     <!-- HUD Header -->
     <div class="hud-header">
       <div class="hud-title">
-        <h1>CYBER BYPASS</h1>
-        <p>Universal Decrypter v6.0</p>
+        <h1>BYPASS ENGINE</h1>
+        <p>SYSTEM v6.1 [OPTIMIZED]</p>
       </div>
-      <div class="hud-stats">
-        <div class="status-badge"><div class="status-dot"></div>SYS SECURE</div>
-        <div style="display:flex; gap:5px; margin-top:4px;">
-          <div style="width:12px;height:12px;border-radius:50%;background:#00f3ff;cursor:pointer;" onclick="setTheme('theme-cyan')"></div>
-          <div style="width:12px;height:12px;border-radius:50%;background:#00ff88;cursor:pointer;" onclick="setTheme('theme-green')"></div>
-          <div style="width:12px;height:12px;border-radius:50%;background:#ff7700;cursor:pointer;" onclick="setTheme('theme-orange')"></div>
-          <div style="width:12px;height:12px;border-radius:50%;background:#b026ff;cursor:pointer;" onclick="setTheme('theme-purple')"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Quick Marquee Ticker -->
-    <div class="ticker-bar">
-      <span>⚡ RAMZYY03 CYBER MATRIX v6.0 ONLINE • MULTI-BYPASS ACTIVE • SECURE ENCLAVE 2026 • 20 FRESH FEATURES EMBEDDED</span>
+      <div class="status-badge"><div class="status-dot"></div>ONLINE</div>
     </div>
 
     <!-- Main Extractor Panel -->
     <div class="panel">
       <div class="panel-header">
-        <div class="panel-title">EXTRACTOR MATRIX</div>
-        <div style="font-size:0.65rem; font-family:var(--font-mono); color:var(--neon-green);" id="stats-counter">Saved: 0 Links</div>
+        <div class="panel-title">EXTRACTOR MODULE</div>
+        <div style="font-size:0.65rem; font-family:var(--font-mono); color:var(--accent-green);" id="stats-counter">SAVED: 0</div>
       </div>
 
-      <!-- Controls Grid (User Agent & Engine Mode) -->
       <div class="controls-grid">
         <select class="control-select" id="user-agent-select">
-          <option value="default">UA: Default Browser</option>
-          <option value="bot">UA: Googlebot Crawler</option>
-          <option value="mobile">UA: Android Mobile</option>
+          <option value="default">UA: STANDARD</option>
+          <option value="bot">UA: GOOGLEBOT</option>
+          <option value="mobile">UA: ANDROID</option>
         </select>
         <select class="control-select" id="engine-mode">
-          <option value="auto">Engine: Auto-Detect</option>
-          <option value="deep">Engine: Deep Scan Base64</option>
+          <option value="auto">ENGINE: AUTO</option>
+          <option value="deep">ENGINE: DEEP</option>
         </select>
       </div>
 
-      <!-- Options & Toggles Bar -->
       <div class="toggles-bar">
-        <label><input type="checkbox" id="toggle-autodownload" checked> Auto-Download</label>
-        <label><input type="checkbox" id="toggle-autoclear"> Clear Input</label>
-        <label><input type="checkbox" id="toggle-sound" checked> SFX Beep</label>
+        <label><input type="checkbox" id="toggle-autodownload" checked> AUTO-DL</label>
+        <label><input type="checkbox" id="toggle-autoclear"> CLR INPUT</label>
+        <label><input type="checkbox" id="toggle-sound" checked> SFX</label>
       </div>
 
-      <!-- Input Single / Batch -->
       <div id="container-single">
         <div class="input-wrapper">
-          <input type="url" class="input-box" id="link-input" placeholder=">> Tempel URL Target di sini (Enter untuk bypass)..." autocomplete="off">
+          <input type="url" class="input-box" id="link-input" placeholder=">> MASUKKAN URL TARGET..." autocomplete="off">
           <button class="paste-btn" id="btn-paste">PASTE</button>
         </div>
-      </div>
-      
-      <div id="container-batch" style="display: none;">
-        <textarea class="input-box" id="batch-input" rows="3" placeholder=">> Tempel banyak link (1 link per baris)..."></textarea>
       </div>
 
       <div class="btn-group">
         <button class="btn btn-main" id="btn-download">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
           EKSTRAK & UNDUH
         </button>
         <button class="btn btn-sec" id="btn-copy" disabled>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
           COPY
         </button>
       </div>
 
-      <div class="benchmark-info" id="benchmark-info">⚡ Extracted successfully in 0.00s</div>
+      <div style="font-size:0.65rem; font-family:var(--font-mono); color:var(--accent-green); margin-top:6px; display:none;" id="benchmark-info">⚡ SELESAI DALAM 0.00s</div>
       
+      <!-- QR CODE (DIPERBESAR JADI 130PX) -->
       <div class="qr-preview-box" id="qr-preview-box">
         <img id="qr-img" class="qr-image" src="" alt="QR">
         <div class="qr-info">
-          <span>QR Matrix Generated</span>
-          Scan untuk buka link di perangkat lain.
+          <span>QR CODE MATRIX</span>
+          SCAN UNTUK MEMBUKA LINK PADA PERANGKAT LAIN.
         </div>
       </div>
     </div>
 
     <!-- Terminal Console Panel -->
-    <div class="panel terminal" id="terminal-box">
+    <div class="panel terminal">
       <div class="panel-header">
-        <div class="panel-title" style="color: var(--text-muted);">LIVE NEURAL LOGS</div>
-        <div style="display:flex; gap:10px;">
-          <span class="action-link-btn" id="btn-fullscreen-term">[FULLSCREEN]</span>
-          <span class="action-link-btn" id="clear-term" style="color: var(--neon-red);">[CLEAR]</span>
-        </div>
+        <div class="panel-title" style="color: var(--text-muted);">CONSOLE LOG</div>
+        <span class="action-link-btn" id="clear-term" style="color: var(--accent-red);">[CLEAR]</span>
       </div>
       <div class="term-window" id="term-window">
-        <div class="log-sys">> Neural engine v6.0 initialized securely. Ready...</div>
+        <div class="log-sys">> SYSTEM INITIALIZED. READY...</div>
       </div>
     </div>
 
-    <!-- History / Favorites / Clipboard Stack Panel -->
+    <!-- History & Storage Panel -->
     <div class="panel">
       <div class="history-actions">
         <div class="sub-tabs">
-          <button class="sub-tab-btn active" id="subtab-history" onclick="switchSubTab('history')">History</button>
-          <button class="sub-tab-btn" id="subtab-fav" onclick="switchSubTab('fav')">Favorites ⭐</button>
-          <button class="sub-tab-btn" id="subtab-clip" onclick="switchSubTab('clip')">Clip Stack 📋</button>
+          <button class="sub-tab-btn active" id="subtab-history" onclick="switchSubTab('history')">LOGS</button>
+          <button class="sub-tab-btn" id="subtab-fav" onclick="switchSubTab('fav')">FAV ⭐</button>
+          <button class="sub-tab-btn" id="subtab-clip" onclick="switchSubTab('clip')">CLIP 📋</button>
         </div>
         <div>
-          <button class="action-link-btn" id="btn-export-json" style="color:var(--neon-cyan);">[JSON]</button>
           <button class="action-link-btn" id="btn-export-txt">[TXT]</button>
-          <button class="action-link-btn" id="clear-cache" style="color:var(--neon-red);">[CLEAR]</button>
+          <button class="action-link-btn" id="clear-cache" style="color:var(--accent-red);">[DEL]</button>
         </div>
       </div>
 
-      <div class="list-container" id="dynamic-list-container">
-        <!-- Rendered dynamically -->
-      </div>
+      <div class="list-container" id="dynamic-list-container"></div>
     </div>
 
     <!-- Footer -->
     <footer class="footer">
-      <div class="author">AUTHOR RAMZYY03</div>
-      <div class="sub">Advanced Decryption Matrix Engine v6.0</div>
+      <div class="author">RAMZYY03 DESIGN</div>
+      <div class="sub">FIVEM HUD INTERFACE v6.1</div>
     </footer>
 
   </div>
 
   <script>
-    // --- MATRIX RAIN ANIMATION ---
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?";
-    const fontSize = 14;
-    let columns = canvas.width / fontSize;
-    const drops = [];
-    for (let x = 0; x < columns; x++) drops[x] = 1;
-
-    function drawMatrix() {
-      ctx.fillStyle = 'rgba(1, 1, 4, 0.08)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#00f3ff';
-      ctx.font = fontSize + 'px monospace';
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters.charAt(Math.floor(Math.random() * letters.length));
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-        drops[i]++;
-      }
-    }
-    setInterval(drawMatrix, 35);
-
-    // --- AUDIO SYNTHESIZER (SFX BEEP) ---
+    // --- LIGHTWEIGHT SFX SYNTHESIZER ---
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function playBeep(freq = 440, type = 'sine', duration = 0.08) {
+    function playBeep(freq = 440, type = 'sine', duration = 0.05) {
       if (!document.getElementById('toggle-sound').checked) return;
       try {
         if (audioCtx.state === 'suspended') audioCtx.resume();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = type; osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
         osc.connect(gain); gain.connect(audioCtx.destination);
         osc.start(); osc.stop(audioCtx.currentTime + duration);
       } catch(e) {}
     }
-
-    function setTheme(themeName) { document.body.className = themeName; playBeep(650, 'sine', 0.05); }
 
     // --- CAPTCHA LOGIC ---
     let currentCaptchaCode = "";
@@ -436,21 +349,21 @@
     document.getElementById('btn-refresh-captcha').addEventListener('click', () => { playBeep(400); generateCaptcha(); });
     document.getElementById('btn-verify-captcha').addEventListener('click', () => {
       if (captchaInput.value.trim().toUpperCase() === currentCaptchaCode) {
-        playBeep(900, 'sine', 0.15);
+        playBeep(900, 'sine', 0.1);
         cfOverlay.classList.add('hidden');
-        setTimeout(() => { cfOverlay.style.display = 'none'; appWrapper.classList.add('active'); }, 500);
+        setTimeout(() => { cfOverlay.style.display = 'none'; appWrapper.classList.add('active'); }, 300);
       } else {
-        playBeep(200, 'sawtooth', 0.2);
-        captchaInput.style.borderColor = '#ff2a2a'; captchaInput.value = "";
-        captchaInput.placeholder = "KODE SALAH!";
-        setTimeout(() => { captchaInput.style.borderColor = 'rgba(255,255,255,0.1)'; }, 1000);
+        playBeep(200, 'sawtooth', 0.15);
+        captchaInput.style.borderColor = '#ff5252'; captchaInput.value = "";
+        captchaInput.placeholder = "SALAH!";
+        setTimeout(() => { captchaInput.style.borderColor = '#232738'; }, 800);
       }
     });
 
-    // --- SUB-TABS MANAGER (History, Favorites, Clip Stack) ---
+    // --- STORAGE TABS ---
     let activeSubTab = 'history';
     function switchSubTab(tab) {
-      playBeep(550);
+      playBeep(500);
       activeSubTab = tab;
       document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
       document.getElementById('subtab-' + tab).classList.add('active');
@@ -466,8 +379,8 @@
       
       if (activeSubTab === 'history') {
         const h = getStorageData('mf_history_v6');
-        document.getElementById('stats-counter').innerText = `Saved: ${h.length} Links`;
-        if (h.length === 0) { container.innerHTML = '<div class="empty-msg">Belum ada riwayat sesi.</div>'; return; }
+        document.getElementById('stats-counter').innerText = `SAVED: ${h.length}`;
+        if (h.length === 0) { container.innerHTML = '<div class="empty-msg">TIDAK ADA LOG.</div>'; return; }
         h.forEach((item, idx) => {
           container.innerHTML += `
             <div class="list-item">
@@ -477,31 +390,31 @@
               </div>
               <div style="display:flex; gap:6px;">
                 <span class="action-link-btn" onclick="addToFav('${item.url}')">⭐</span>
-                <span class="action-link-btn" style="color:var(--neon-red);" onclick="deleteHistory(${idx})">DEL</span>
+                <span class="action-link-btn" style="color:var(--accent-red);" onclick="deleteHistory(${idx})">X</span>
               </div>
             </div>`;
         });
       } else if (activeSubTab === 'fav') {
         const favs = getStorageData('mf_favs_v6');
-        if (favs.length === 0) { container.innerHTML = '<div class="empty-msg">Belum ada link favorit tersimpan.</div>'; return; }
+        if (favs.length === 0) { container.innerHTML = '<div class="empty-msg">FAVORIT KOSONG.</div>'; return; }
         favs.forEach((url, idx) => {
           container.innerHTML += `
             <div class="list-item">
               <div class="list-item-info">
-                <span class="meta">FAVOURITE LINK</span>
+                <span class="meta">FAVOURITE</span>
                 <span class="url">${url}</span>
               </div>
-              <span class="action-link-btn" style="color:var(--neon-red);" onclick="deleteFav(${idx})">DEL</span>
+              <span class="action-link-btn" style="color:var(--accent-red);" onclick="deleteFav(${idx})">X</span>
             </div>`;
         });
       } else if (activeSubTab === 'clip') {
         const clips = getStorageData('mf_clips_v6');
-        if (clips.length === 0) { container.innerHTML = '<div class="empty-msg">Clipboard stack kosong.</div>'; return; }
+        if (clips.length === 0) { container.innerHTML = '<div class="empty-msg">CLIPBOARD KOSONG.</div>'; return; }
         clips.forEach((clip, idx) => {
           container.innerHTML += `
             <div class="list-item" onclick="document.getElementById('link-input').value='${clip}'; switchSubTab('history');">
               <div class="list-item-info">
-                <span class="meta">CLIPBOARD MEMORY #${idx+1}</span>
+                <span class="meta">STACK #${idx+1}</span>
                 <span class="url">${clip}</span>
               </div>
             </div>`;
@@ -512,16 +425,15 @@
 
     function addToFav(url) {
       const favs = getStorageData('mf_favs_v6');
-      if (!favs.includes(url)) { favs.push(url); setStorageData('mf_favs_v6', favs); playBeep(800); addLog("Ditambahkan ke Favorites ⭐", "log-succ"); }
+      if (!favs.includes(url)) { favs.push(url); setStorageData('mf_favs_v6', favs); playBeep(800); addLog("DITAMBAHKAN KE FAVORIT ⭐", "log-succ"); }
     }
     function deleteHistory(idx) { const h = getStorageData('mf_history_v6'); h.splice(idx, 1); setStorageData('mf_history_v6', h); renderDynamicList(); }
     function deleteFav(idx) { const f = getStorageData('mf_favs_v6'); f.splice(idx, 1); setStorageData('mf_favs_v6', f); renderDynamicList(); }
 
-    // --- APP LOGIC & UTILITIES ---
+    // --- APP CORE LOGIC ---
     const btnDownload = document.getElementById('btn-download');
     const btnCopy = document.getElementById('btn-copy');
     const linkInput = document.getElementById('link-input');
-    const batchInput = document.getElementById('batch-input');
     const termWindow = document.getElementById('term-window');
     const qrBox = document.getElementById('qr-preview-box');
     const qrImg = document.getElementById('qr-img');
@@ -539,62 +451,39 @@
       termWindow.scrollTop = termWindow.scrollHeight;
     }
 
-    document.getElementById('clear-term').addEventListener('click', () => { playBeep(300); termWindow.innerHTML = '<div class="log-sys">> Console cleared. <span class="blinking-cursor"></span></div>'; });
-    document.getElementById('btn-fullscreen-term').addEventListener('click', () => {
-      const box = document.getElementById('terminal-box');
-      box.classList.toggle('fullscreen');
-      document.getElementById('btn-fullscreen-term').innerText = box.classList.contains('fullscreen') ? '[RESTORE]' : '[FULLSCREEN]';
-    });
+    document.getElementById('clear-term').addEventListener('click', () => { playBeep(300); termWindow.innerHTML = '<div class="log-sys">> CONSOLE CLEARED. <span class="blinking-cursor"></span></div>'; });
 
     const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
-    // One-Tap Paste & Clip Stack recorder
     document.getElementById('btn-paste').addEventListener('click', async () => {
       try {
         const text = await navigator.clipboard.readText();
         if (text) {
           linkInput.value = text.trim();
-          playBeep(750, 'sine', 0.08);
+          playBeep(750, 'sine', 0.05);
           const clips = getStorageData('mf_clips_v6');
           if (!clips.includes(text.trim())) { clips.unshift(text.trim()); if (clips.length > 5) clips.pop(); setStorageData('mf_clips_v6', clips); }
-          addLog("Clipboard ditempel & disimpan ke Clip Stack.", "log-succ");
+          addLog("TEXT TEMPEL DARI CLIPBOARD.", "log-succ");
         }
-      } catch (err) { addLog("ERR: Izinkan akses clipboard.", "log-err"); }
+      } catch (err) { addLog("ERR: IZINKAN AKSES CLIPBOARD.", "log-err"); }
     });
 
-    // Keyboard Hotkeys
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && appWrapper.classList.contains('active')) { btnDownload.click(); }
-      if (e.ctrlKey && e.key === 'v') { setTimeout(() => { document.getElementById('btn-paste').click(); }, 100); }
-    });
-
-    // Export TXT / JSON
     document.getElementById('btn-export-txt').addEventListener('click', () => {
       playBeep(900);
       const h = getStorageData('mf_history_v6');
-      if (h.length === 0) { addLog("ERR: Cache kosong.", "log-err"); return; }
+      if (h.length === 0) { addLog("ERR: LOG KOSONG.", "log-err"); return; }
       let content = "=== RAMZYY03 BYPASS REPORT ===\n\n";
       h.forEach((item, i) => { content += `[${i+1}] ${item.time} | ${item.type}\nURL: ${item.url}\n--------------------\n`; });
       const blob = new Blob([content], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a'); a.href = url; a.download = `Report_${Date.now()}.txt`; a.click();
-      addLog("Export ke .txt berhasil.", "log-succ");
-    });
-
-    document.getElementById('btn-export-json').addEventListener('click', () => {
-      playBeep(900);
-      const h = getStorageData('mf_history_v6');
-      const blob = new Blob([JSON.stringify(h, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = `Report_${Date.now()}.json`; a.click();
-      addLog("Export ke .json berhasil.", "log-succ");
+      addLog("EXPORT TXT BERHASIL.", "log-succ");
     });
 
     document.getElementById('clear-cache').addEventListener('click', () => {
-      playBeep(300); localStorage.removeItem('mf_history_v6'); renderDynamicList(); addLog("Cache dibersihkan.", "log-warn");
+      playBeep(300); localStorage.removeItem('mf_history_v6'); renderDynamicList(); addLog("CACHE DIHAPUS.", "log-warn");
     });
 
-    // EXECUTE BYPASS
     btnDownload.addEventListener('click', async () => {
       playBeep(700); btnCopy.disabled = true; currentDirectLink = ""; qrBox.classList.remove('active'); benchmarkInfo.style.display = 'none';
       const startTime = performance.now();
@@ -605,12 +494,12 @@
 
       const url = linkInput.value.trim();
       if (!url || !url.startsWith('http')) {
-        playBeep(200, 'sawtooth', 0.2); addLog("ERR: URL target tidak valid.", "log-err"); return;
+        playBeep(200, 'sawtooth', 0.1); addLog("ERR: URL TIDAK VALID.", "log-err"); return;
       }
 
       btnDownload.disabled = true; btnDownload.innerHTML = 'MEMPROSES...';
-      addLog(`Menganalisa target [UA: ${uaMode} | Engine: ${engineMode}]...`, "log-warn");
-      await sleep(500);
+      addLog(`MENGEKSTRAK TARGET...`, "log-warn");
+      await sleep(300);
 
       try {
         const response = await fetch('/api/extract', {
@@ -623,15 +512,16 @@
 
         if (data.success) {
           currentDirectLink = data.direct_link; btnCopy.disabled = false;
-          playBeep(1200, 'sine', 0.2);
+          playBeep(1200, 'sine', 0.1);
           
-          addLog(`Protokol: [${data.type}]`, "log-info");
-          addLog("Payload decrypter berhasil di-generate!", "log-succ");
+          addLog(`PROTOKOL: [${data.type}]`, "log-info");
+          addLog("DIRECT LINK BERHASIL DIDAPATKAN!", "log-succ");
           
-          benchmarkInfo.innerText = `⚡ Extracted successfully in ${duration}s`;
+          benchmarkInfo.innerText = `⚡ SELESAI DALAM ${duration}s`;
           benchmarkInfo.style.display = 'block';
 
-          qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(data.direct_link)}`;
+          // QR Code Diperbesar
+          qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(data.direct_link)}`;
           qrBox.classList.add('active');
 
           const h = getStorageData('mf_history_v6');
@@ -645,28 +535,28 @@
             setTimeout(() => {
               const iframe = document.createElement('iframe'); iframe.style.display = 'none'; iframe.src = data.direct_link;
               document.body.appendChild(iframe);
-              addLog("Unduhan siluman via iFrame aktif & Auto-Copy Clipboard!", "log-succ");
-            }, 800);
+              addLog("UNDUHAN SILUMAN & AUTO-COPY AKTIF!", "log-succ");
+            }, 500);
           }
 
           if (autoClear) { linkInput.value = ''; }
 
         } else {
-          playBeep(200, 'sawtooth', 0.2); addLog(`ERR: ${data.message}`, "log-err");
+          playBeep(200, 'sawtooth', 0.1); addLog(`ERR: ${data.message}`, "log-err");
         }
       } catch (err) {
-        playBeep(200, 'sawtooth', 0.2); addLog("ERR: Gagal terhubung ke backend server.", "log-err");
+        playBeep(200, 'sawtooth', 0.1); addLog("ERR: KONEKSI SERVER GAGAL.", "log-err");
       } finally {
         btnDownload.disabled = false;
-        btnDownload.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> EKSTRAK & UNDUH`;
+        btnDownload.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> EKSTRAK & UNDUH`;
       }
     });
 
     btnCopy.addEventListener('click', () => {
       if (currentDirectLink) {
         navigator.clipboard.writeText(currentDirectLink).then(() => {
-          playBeep(950, 'sine', 0.1); addLog("Direct link disalin ke clipboard!", "log-succ");
-          btnCopy.innerHTML = "COPIED!"; setTimeout(() => { btnCopy.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> COPY`; }, 2000);
+          playBeep(950, 'sine', 0.08); addLog("LINK DISALIN KE CLIPBOARD.", "log-succ");
+          btnCopy.innerHTML = "COPIED!"; setTimeout(() => { btnCopy.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> COPY`; }, 2000);
         });
       }
     });
