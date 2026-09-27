@@ -3,96 +3,244 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AUTO EXTRACT DOWNLOADER</title>
+  <title>MF BYPASS - by Ramzyy03</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap');
+
     :root {
-      --bg: #0b0f19;
-      --card: #151b2b;
-      --primary: #3b82f6;
-      --primary-glow: rgba(59, 130, 246, 0.5);
-      --text: #f3f4f6;
-      --text-dim: #9ca3af;
-      --border: #2dd4bf;
+      --bg-main: #05050a;
+      --card-bg: rgba(15, 15, 25, 0.75);
+      --neon-blue: #00f3ff;
+      --neon-orange: #ff7700;
+      --text-main: #ffffff;
+      --text-muted: #8b949e;
+      --border-color: rgba(0, 243, 255, 0.15);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-main);
+      background-image: 
+        radial-gradient(circle at 15% 50%, rgba(0, 243, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 85% 30%, rgba(255, 119, 0, 0.08) 0%, transparent 50%);
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    /* Animasi Grid Latar Belakang */
+    .bg-grid {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
+      pointer-events: none;
+    }
 
     .container {
-      background: var(--card);
-      border: 1px solid rgba(45, 212, 191, 0.2);
-      border-radius: 20px;
-      padding: 30px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 40px 30px;
       width: 100%;
-      max-width: 450px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      max-width: 480px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 243, 255, 0.03);
+      position: relative;
+      z-index: 1;
     }
 
-    .header { text-align: center; margin-bottom: 25px; }
-    .header h1 { font-size: 1.5rem; color: var(--border); letter-spacing: 1px; text-shadow: 0 0 10px rgba(45, 212, 191, 0.4); }
-    .header p { font-size: 0.85rem; color: var(--text-dim); margin-top: 5px; }
+    /* Garis Dekoratif Atas */
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 15%; width: 70%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+      border-radius: 50%;
+    }
 
-    .input-group { display: flex; flex-direction: column; gap: 15px; }
+    .header { text-align: center; margin-bottom: 35px; }
+    .header h1 { 
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem; 
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 15px rgba(0, 243, 255, 0.6);
+      margin-bottom: 8px;
+    }
+    .header p { 
+      font-size: 1.05rem; 
+      color: var(--text-muted); 
+      letter-spacing: 0.5px;
+    }
+
+    .input-group { position: relative; margin-bottom: 24px; }
+    .input-group svg {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--neon-blue);
+      width: 20px; height: 20px;
+      filter: drop-shadow(0 0 5px rgba(0, 243, 255, 0.5));
+    }
     
     input[type="url"] {
       width: 100%;
-      padding: 14px 16px;
-      background: rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
+      padding: 18px 18px 18px 50px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
       color: #fff;
-      font-size: 0.9rem;
+      font-size: 1rem;
+      font-family: monospace;
       outline: none;
-      transition: border 0.3s;
+      transition: all 0.3s ease;
     }
-    input[type="url"]:focus { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
+    input[type="url"]:focus { 
+      border-color: var(--neon-blue); 
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.15); 
+    }
+    input[type="url"]::placeholder { color: #4b5563; }
 
     .btn-download {
       width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, var(--primary), #2563eb);
+      padding: 18px;
+      background: linear-gradient(135deg, var(--neon-orange), #d9381e);
       color: white;
       border: none;
-      border-radius: 12px;
-      font-weight: bold;
-      font-size: 1rem;
+      border-radius: 16px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 1.5px;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 20px rgba(255, 119, 0, 0.3);
+      position: relative;
+      overflow: hidden;
     }
-    .btn-download:hover { transform: translateY(-2px); box-shadow: 0 5px 15px var(--primary-glow); }
-    .btn-download:active { transform: scale(0.98); }
-    .btn-download:disabled { background: #374151; color: #9ca3af; cursor: not-allowed; box-shadow: none; transform: none; }
+    
+    .btn-download::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: skewX(-25deg);
+      transition: all 0.5s;
+    }
+    
+    .btn-download:hover { 
+      transform: translateY(-3px); 
+      box-shadow: 0 8px 25px rgba(255, 119, 0, 0.5); 
+    }
+    .btn-download:hover::after { left: 150%; }
+    .btn-download:active { transform: scale(0.97); }
+    
+    .btn-download:disabled { 
+      background: #1c1c24; 
+      color: #52525b; 
+      cursor: not-allowed; 
+      box-shadow: none; 
+      transform: none; 
+      border: 1px solid #272730;
+    }
+    .btn-download:disabled::after { display: none; }
 
     .status-box {
-      margin-top: 20px;
-      padding: 15px;
+      margin-top: 24px;
+      padding: 16px;
       border-radius: 12px;
-      font-size: 0.85rem;
+      font-size: 1rem;
+      font-weight: 600;
       display: none;
       word-break: break-all;
+      text-align: center;
+      animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-    .status-box.active { display: block; animation: fadeIn 0.3s; }
-    .status-loading { background: rgba(59, 130, 246, 0.1); border: 1px solid var(--primary); color: var(--primary); }
-    .status-success { background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; color: #10b981; }
-    .status-error { background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444; }
+    
+    .status-box.active { display: block; }
+    .status-loading { background: rgba(0, 243, 255, 0.05); border: 1px solid rgba(0, 243, 255, 0.3); color: var(--neon-blue); text-shadow: 0 0 10px rgba(0, 243, 255, 0.5); }
+    .status-success { background: rgba(0, 255, 136, 0.05); border: 1px solid rgba(0, 255, 136, 0.3); color: #00ff88; text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
+    .status-error { background: rgba(255, 0, 60, 0.05); border: 1px solid rgba(255, 0, 60, 0.3); color: #ff003c; text-shadow: 0 0 10px rgba(255, 0, 60, 0.5); }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Footer Credits */
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 2;
+    }
+    .footer .author {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.95rem;
+      color: var(--neon-blue);
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(0, 243, 255, 0.6);
+    }
+    .footer .sub-credit {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 0.5px;
+    }
   </style>
 </head>
 <body>
 
+  <div class="bg-grid"></div>
+
   <div class="container">
     <div class="header">
-      <h1>BYPASS DOWNLOADER</h1>
-      <p>Tempel link MediaFire, unduh otomatis tanpa iklan/redirect.</p>
+      <h1>MF BYPASS</h1>
+      <p>Direct Link Extractor Engine</p>
     </div>
 
     <div class="input-group">
-      <input type="url" id="link-input" placeholder="https://www.mediafire.com/file/..." required>
-      <button class="btn-download" id="btn-download">EKSTRAK & UNDUH</button>
+      <!-- SVG Link Icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+      </svg>
+      <input type="url" id="link-input" placeholder="https://www.mediafire.com/file/..." autocomplete="off" required>
     </div>
 
+    <button class="btn-download" id="btn-download">
+      <!-- SVG Download Icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+      EKSTRAK & UNDUH
+    </button>
+
     <div id="status-box" class="status-box"></div>
+  </div>
+
+  <div class="footer">
+    <div class="author">AUTHOR RAMZYY03</div>
+    <div class="sub-credit">System Engine V1.0 • Node.js Backend</div>
   </div>
 
   <script>
@@ -102,21 +250,50 @@
 
     function showStatus(message, type) {
       statusBox.className = `status-box active status-${type}`;
-      statusBox.innerText = message;
+      
+      // Menambahkan animasi titik-titik jika loading
+      if (type === 'loading') {
+        let dots = 0;
+        statusBox.innerText = message;
+        window.loadingInterval = setInterval(() => {
+          dots = (dots + 1) % 4;
+          statusBox.innerText = message + '.'.repeat(dots);
+        }, 400);
+      } else {
+        clearInterval(window.loadingInterval);
+        statusBox.innerText = message;
+      }
     }
 
     btnDownload.addEventListener('click', async () => {
       const url = linkInput.value.trim();
 
       if (!url) {
-        showStatus('Harap masukkan link terlebih dahulu.', 'error');
+        showStatus('SYSTEM: Harap masukkan link MediaFire.', 'error');
         return;
       }
 
       // State Loading
       btnDownload.disabled = true;
-      btnDownload.innerText = 'MEMPROSES...';
-      showStatus('Mengekstrak direct link dari server...', 'loading');
+      btnDownload.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="spin">
+          <line x1="12" y1="2" x2="12" y2="6"></line>
+          <line x1="12" y1="18" x2="12" y2="22"></line>
+          <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+          <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+          <line x1="2" y1="12" x2="6" y2="12"></line>
+          <line x1="18" y1="12" x2="22" y2="12"></line>
+          <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+          <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+        </svg>
+        MEMPROSES...
+      `;
+      // Tambah style spin sementara untuk icon loading
+      const style = document.createElement('style');
+      style.innerHTML = '.spin { animation: spin 1s linear infinite; } @keyframes spin { 100% { transform: rotate(360deg); } }';
+      document.head.appendChild(style);
+
+      showStatus('Bypassing server security', 'loading');
 
       try {
         const response = await fetch('/api/extract', {
@@ -128,25 +305,39 @@
         const data = await response.json();
 
         if (data.success) {
-          showStatus('Berhasil! Unduhan akan segera dimulai...', 'success');
+          clearInterval(window.loadingInterval);
+          showStatus('Bypass Berhasil! Unduhan dimulai.', 'success');
           
-          // Memulai unduhan secara otomatis di latar belakang
-          const a = document.createElement('a');
-          a.href = data.direct_link;
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
+          // Trigger download
+          setTimeout(() => {
+            const a = document.createElement('a');
+            a.href = data.direct_link;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          }, 800);
 
         } else {
-          showStatus(`Gagal: ${data.message}`, 'error');
+          clearInterval(window.loadingInterval);
+          showStatus(`SYSTEM ERROR: ${data.message}`, 'error');
         }
       } catch (err) {
-        showStatus('Terjadi kesalahan jaringan atau server mati.', 'error');
+        clearInterval(window.loadingInterval);
+        showStatus('NETWORK ERROR: Koneksi server gagal.', 'error');
       } finally {
         // Reset Button
-        btnDownload.disabled = false;
-        btnDownload.innerText = 'EKSTRAK & UNDUH';
+        setTimeout(() => {
+          btnDownload.disabled = false;
+          btnDownload.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            EKSTRAK & UNDUH
+          `;
+        }, 2000);
       }
     });
   </script>
