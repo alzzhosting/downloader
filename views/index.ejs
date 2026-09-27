@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UNIVERSAL BYPASS ENGINE</title>
+  <title>CYBER BYPASS ENGINE V3.0 - by Ramzyy03</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap');
 
     :root {
-      --bg-main: #030305;
-      --card-bg: rgba(10, 10, 15, 0.85);
+      --bg-main: #020205;
+      --card-bg: rgba(12, 12, 20, 0.75);
       --neon-cyan: #00f3ff;
-      --neon-red: #ff2a2a;
-      --neon-green: #00ff88;
       --neon-purple: #b026ff;
-      --text-main: #e2e8f0;
+      --neon-green: #00ff88;
+      --neon-red: #ff2a2a;
+      --text-main: #f1f5f9;
       --text-muted: #64748b;
-      --border-cyan: rgba(0, 243, 255, 0.2);
+      --border-glow: rgba(176, 38, 255, 0.25);
       --font-ui: 'Rajdhani', sans-serif;
       --font-mono: 'Fira Code', monospace;
       --font-display: 'Orbitron', sans-serif;
@@ -25,154 +25,260 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background-color: var(--bg-main); color: var(--text-main); font-family: var(--font-ui);
-      min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow-x: hidden;
-      background-image: radial-gradient(circle at 10% 20%, rgba(0, 243, 255, 0.05) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(176, 38, 255, 0.05) 0%, transparent 40%);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font-ui);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 20% 20%, rgba(176, 38, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(0, 243, 255, 0.08) 0%, transparent 40%);
     }
+
+    /* Cyber Scanline */
     body::after {
       content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-      z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      z-index: 2; background-size: 100% 3px, 3px 100%; pointer-events: none;
     }
 
-    /* CF Overlay */
-    .cf-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
+    /* --- CYBER CAPTCHA OVERLAY --- */
+    .cf-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(2, 2, 5, 0.95); backdrop-filter: blur(12px);
+      z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
     .cf-overlay.hidden { opacity: 0; pointer-events: none; }
-    .cf-box { background: #111; border: 1px solid #333; border-radius: 8px; padding: 24px; width: 100%; max-width: 320px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: flex; flex-direction: column; gap: 16px; }
-    .cf-verify-row { display: flex; align-items: center; gap: 16px; }
-    .cf-checkbox { width: 28px; height: 28px; border: 2px solid #555; border-radius: 4px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s; }
-    .cf-checkbox:hover { border-color: #888; }
-    .cf-checkbox.loading { border: 2px solid transparent; border-top-color: var(--neon-cyan); border-radius: 50%; animation: cf-spin 1s linear infinite; cursor: default; }
-    .cf-checkbox.success { border-color: var(--neon-green); background: rgba(0, 255, 136, 0.1); cursor: default; }
-    .cf-text { font-family: sans-serif; font-size: 0.9rem; color: #ccc; }
-    .cf-footer { border-top: 1px solid #333; padding-top: 12px; font-size: 0.7rem; color: #666; display: flex; justify-content: space-between; font-family: sans-serif; }
-    @keyframes cf-spin { 100% { transform: rotate(360deg); } }
+    
+    .cf-box {
+      background: linear-gradient(135deg, rgba(20, 20, 30, 0.9), rgba(10, 10, 15, 0.95));
+      border: 1px solid var(--neon-purple);
+      border-radius: 16px; padding: 30px; width: 100%; max-width: 360px;
+      box-shadow: 0 0 30px rgba(176, 38, 255, 0.2), inset 0 0 15px rgba(176, 38, 255, 0.05);
+      display: flex; flex-direction: column; gap: 20px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cf-box::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-purple), transparent);
+      animation: scan-line 2s linear infinite;
+    }
+    @keyframes scan-line { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
-    /* App Wrapper */
-    .app-wrapper { width: 100%; max-width: 500px; padding: 20px; z-index: 10; display: none; flex-direction: column; gap: 20px; animation: glitch-in 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+    .cf-title { font-family: var(--font-display); font-size: 0.95rem; color: var(--neon-cyan); letter-spacing: 1px; }
+    .cf-desc { font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono); }
+    
+    .matrix-btn {
+      background: rgba(0, 243, 255, 0.05); border: 1px solid var(--neon-cyan);
+      border-radius: 10px; padding: 15px; display: flex; align-items: center; gap: 15px;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .matrix-btn:hover { background: rgba(0, 243, 255, 0.15); box-shadow: 0 0 15px rgba(0, 243, 255, 0.3); }
+    
+    .matrix-checkbox {
+      width: 26px; height: 26px; border: 2px solid var(--neon-cyan); border-radius: 6px;
+      display: flex; justify-content: center; align-items: center; position: relative;
+    }
+    .matrix-checkbox.loading { border-color: transparent; border-top-color: var(--neon-purple); animation: spin 0.8s linear infinite; }
+    .matrix-checkbox.success { border-color: var(--neon-green); background: rgba(0, 255, 136, 0.2); box-shadow: 0 0 10px var(--neon-green); }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    
+    .matrix-label { font-family: var(--font-ui); font-size: 1rem; font-weight: 600; color: #fff; text-align: left; }
+    .cf-footer-secure { font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px; }
+
+    /* --- MAIN APP WRAPPER --- */
+    .app-wrapper {
+      width: 100%; max-width: 520px; padding: 20px; z-index: 10;
+      display: none; flex-direction: column; gap: 18px;
+      animation: zoom-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
     .app-wrapper.active { display: flex; }
-    @keyframes glitch-in { 0% { opacity: 0; transform: scale(0.95) translateY(20px); filter: blur(10px); } 100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } }
+    @keyframes zoom-in { 0% { opacity: 0; transform: scale(0.92); filter: blur(8px); } 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
 
-    /* Header */
-    .header { text-align: center; padding-bottom: 10px; border-bottom: 1px solid var(--border-cyan); position: relative; }
-    .header h1 { font-family: var(--font-display); font-size: 2rem; color: var(--text-main); text-shadow: 0 0 10px var(--neon-purple); letter-spacing: 2px; }
-    .header p { color: var(--neon-cyan); font-family: var(--font-mono); font-size: 0.8rem; margin-top: 5px; }
-    .badge-auto { position: absolute; top: 10px; right: 0; background: rgba(176, 38, 255, 0.15); border: 1px solid var(--neon-purple); color: var(--neon-purple); font-size: 0.6rem; padding: 4px 8px; border-radius: 12px; font-family: var(--font-mono); font-weight: bold; }
+    /* Header HUD */
+    .hud-header {
+      background: var(--card-bg); backdrop-filter: blur(16px);
+      border: 1px solid var(--border-glow); border-radius: 14px; padding: 18px 22px;
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .hud-title h1 { font-family: var(--font-display); font-size: 1.4rem; color: #fff; letter-spacing: 1px; text-shadow: 0 0 10px rgba(176, 38, 255, 0.5); }
+    .hud-title p { font-size: 0.75rem; color: var(--neon-cyan); font-family: var(--font-mono); }
+    
+    .hud-stats { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .status-badge { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; font-family: var(--font-mono); color: var(--neon-green); background: rgba(0, 255, 136, 0.1); padding: 3px 8px; border-radius: 20px; border: 1px solid rgba(0, 255, 136, 0.3); }
+    .status-dot { width: 6px; height: 6px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 8px var(--neon-green); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .ping-text { font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-mono); }
 
     /* Panels */
-    .panel { background: var(--card-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--border-cyan); border-radius: 12px; padding: 20px; box-shadow: inset 0 0 20px rgba(0, 243, 255, 0.02), 0 10px 20px rgba(0,0,0,0.5); position: relative; overflow: hidden; }
-    .panel-title { font-family: var(--font-display); font-size: 0.9rem; color: var(--neon-cyan); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-    .panel-title::before { content: ''; width: 8px; height: 8px; background: var(--neon-cyan); display: inline-block; box-shadow: 0 0 8px var(--neon-cyan); }
+    .panel {
+      background: var(--card-bg); backdrop-filter: blur(16px);
+      border: 1px solid var(--border-glow); border-radius: 14px; padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative;
+    }
+    .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .panel-title { font-family: var(--font-display); font-size: 0.85rem; color: var(--neon-cyan); display: flex; align-items: center; gap: 8px; }
+    .panel-title::before { content: ''; width: 6px; height: 6px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 8px var(--neon-cyan); }
 
-    /* Input & Buttons */
-    input[type="url"] { width: 100%; padding: 15px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-family: var(--font-mono); font-size: 0.85rem; outline: none; transition: all 0.3s; margin-bottom: 15px; }
-    input[type="url"]:focus { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); }
-    .btn-group { display: flex; gap: 10px; }
-    .btn { flex: 1; padding: 14px; border: none; border-radius: 8px; font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.2s; }
-    .btn-primary { background: linear-gradient(135deg, var(--neon-purple), #0088ff); color: #fff; box-shadow: 0 0 15px rgba(176, 38, 255, 0.4); text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(176, 38, 255, 0.6); }
-    .btn-primary:active { transform: scale(0.95); }
-    .btn-primary:disabled { background: #333; color: #666; box-shadow: none; cursor: not-allowed; transform: none; }
-    .btn-secondary { background: transparent; border: 1px solid var(--neon-cyan); color: var(--neon-cyan); }
-    .btn-secondary:hover { background: rgba(0, 243, 255, 0.1); }
-    .btn-secondary:disabled { border-color: #333; color: #555; cursor: not-allowed; }
+    /* Mode Switcher Tabs */
+    .mode-tabs { display: flex; background: rgba(0,0,0,0.4); border-radius: 8px; padding: 3px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
+    .tab-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); font-family: var(--font-ui); font-weight: 600; font-size: 0.8rem; padding: 6px; border-radius: 6px; cursor: pointer; transition: all 0.3s; }
+    .tab-btn.active { background: var(--neon-purple); color: #fff; box-shadow: 0 0 10px rgba(176, 38, 255, 0.4); }
 
-    /* Terminal */
-    .terminal { padding: 15px; background: #050508; border-color: #222; }
-    .term-window { height: 140px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.5; color: #888; display: flex; flex-direction: column; gap: 4px; }
-    .log-sys { color: #888; } .log-warn { color: #f59e0b; } .log-succ { color: var(--neon-green); text-shadow: 0 0 5px rgba(0,255,136,0.5); } .log-err { color: var(--neon-red); text-shadow: 0 0 5px rgba(255,42,42,0.5); } .log-info { color: var(--neon-purple); }
-    .blinking-cursor { display: inline-block; width: 6px; height: 12px; background: var(--neon-cyan); animation: blink 1s step-end infinite; margin-left: 5px; }
+    /* Inputs & Textarea */
+    .input-box {
+      width: 100%; padding: 14px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; color: #fff; font-family: var(--font-mono); font-size: 0.82rem; outline: none; transition: all 0.3s; resize: none;
+    }
+    .input-box:focus { border-color: var(--neon-purple); box-shadow: 0 0 15px rgba(176, 38, 255, 0.25); }
+
+    .btn-group { display: flex; gap: 10px; margin-top: 12px; }
+    .btn {
+      flex: 1; padding: 14px; border: none; border-radius: 10px; font-family: var(--font-display);
+      font-weight: 700; font-size: 0.85rem; letter-spacing: 1px; cursor: pointer; display: flex;
+      justify-content: center; align-items: center; gap: 8px; transition: all 0.25s;
+    }
+    .btn-main { background: linear-gradient(135deg, var(--neon-purple), #6366f1); color: #fff; box-shadow: 0 0 20px rgba(176, 38, 255, 0.4); }
+    .btn-main:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(176, 38, 255, 0.7); }
+    .btn-main:active { transform: scale(0.97); }
+    .btn-main:disabled { background: #222; color: #555; box-shadow: none; cursor: not-allowed; transform: none; }
+
+    .btn-sec { background: transparent; border: 1px solid var(--neon-cyan); color: var(--neon-cyan); }
+    .btn-sec:hover { background: rgba(0, 243, 255, 0.1); }
+    .btn-sec:disabled { border-color: #222; color: #555; cursor: not-allowed; }
+
+    /* Terminal Console */
+    .terminal { background: #010103; border-color: rgba(0, 243, 255, 0.15); }
+    .term-window { height: 130px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.73rem; line-height: 1.5; color: var(--text-muted); display: flex; flex-direction: column; gap: 4px; }
+    .log-sys { color: #888; } .log-warn { color: #f59e0b; } .log-succ { color: var(--neon-green); text-shadow: 0 0 6px rgba(0,255,136,0.4); } .log-err { color: var(--neon-red); text-shadow: 0 0 6px rgba(255,42,42,0.4); } .log-info { color: var(--neon-cyan); }
+    .blinking-cursor { display: inline-block; width: 5px; height: 11px; background: var(--neon-cyan); animation: blink 1s step-end infinite; margin-left: 4px; }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-    /* History & Footer */
-    .history-list { display: flex; flex-direction: column; gap: 8px; max-height: 150px; overflow-y: auto; }
-    .history-item { background: rgba(255,255,255,0.03); padding: 10px 12px; border-radius: 6px; border-left: 3px solid var(--neon-purple); display: flex; flex-direction: column; gap: 4px; }
-    .history-item span.url { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .history-item span.time { font-size: 0.65rem; color: var(--neon-green); font-weight: 600; }
-    .empty-history { font-size: 0.8rem; color: #555; text-align: center; font-style: italic; padding: 10px 0; }
-    .footer { text-align: center; margin-top: 10px; }
-    .footer .author { font-family: var(--font-display); font-size: 1rem; color: var(--neon-red); font-weight: 900; letter-spacing: 3px; text-shadow: 0 0 10px rgba(255, 42, 42, 0.5); }
-    .footer .sub { font-size: 0.75rem; color: #555; font-family: var(--font-mono); margin-top: 4px; }
-    ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: rgba(176, 38, 255, 0.3); border-radius: 10px; }
+    /* History List */
+    .history-list { display: flex; flex-direction: column; gap: 6px; max-height: 130px; overflow-y: auto; }
+    .history-item { background: rgba(255,255,255,0.02); padding: 8px 12px; border-radius: 6px; border-left: 3px solid var(--neon-purple); display: flex; justify-content: space-between; align-items: center; }
+    .history-info { display: flex; flex-direction: column; gap: 2px; overflow: hidden; max-width: 320px; }
+    .history-item span.url { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .history-item span.time { font-size: 0.62rem; color: var(--neon-green); font-weight: 600; }
+    .empty-history { font-size: 0.78rem; color: var(--text-muted); text-align: center; font-style: italic; padding: 10px 0; }
+
+    /* Footer */
+    .footer { text-align: center; margin-top: 5px; }
+    .footer .author { font-family: var(--font-display); font-size: 0.95rem; color: var(--neon-cyan); font-weight: 900; letter-spacing: 2px; text-shadow: 0 0 10px rgba(0, 243, 255, 0.4); }
+    .footer .sub { font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono); margin-top: 2px; }
+    
+    ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: rgba(176, 38, 255, 0.3); border-radius: 10px; }
   </style>
 </head>
 <body>
 
+  <!-- CYBER CAPTCHA OVERLAY -->
   <div id="cf-overlay" class="cf-overlay">
     <div class="cf-box">
-      <div class="cf-verify-row">
-        <div id="cf-checkbox" class="cf-checkbox"></div>
-        <span id="cf-text" class="cf-text">Verify you are human</span>
+      <div class="cf-title">NEURAL SECURITY GATE</div>
+      <div class="cf-desc">Verifikasi integritas perangkat untuk membuka akses mesin bypass.</div>
+      <div class="matrix-btn" id="matrix-trigger">
+        <div id="matrix-checkbox" class="matrix-checkbox"></div>
+        <div class="matrix-label">Saya bukan bot otomatis</div>
       </div>
-      <div class="cf-footer">
-        <span>RAMZYY03 Web Security</span>
-        <span>Privacy · Terms</span>
-      </div>
+      <div class="cf-footer-secure">RAMZYY03 Secure Enclave Protocol</div>
     </div>
   </div>
 
+  <!-- MAIN APP -->
   <div id="app-wrapper" class="app-wrapper">
-    <header class="header">
-      <div class="badge-auto">AUTO-DETECT ON</div>
-      <h1>UNIVERSAL BYPASS</h1>
-      <p>MediaFire • Safelink • Bit.ly • S.id</p>
-    </header>
+    
+    <!-- HUD Header -->
+    <div class="hud-header">
+      <div class="hud-title">
+        <h1>CYBER BYPASS</h1>
+        <p>Universal Link Decrypter</p>
+      </div>
+      <div class="hud-stats">
+        <div class="status-badge"><div class="status-dot"></div>SYS ONLINE</div>
+        <div class="ping-text" id="ping-monitor">Latency: 14ms</div>
+      </div>
+    </div>
 
+    <!-- Main Extractor Panel -->
     <div class="panel">
-      <div class="panel-title">EXTRACT MODULE</div>
-      <input type="url" id="link-input" placeholder=">> Tempel target URL di sini..." autocomplete="off">
+      <div class="panel-header">
+        <div class="panel-title">EXTRACTOR MATRIX</div>
+      </div>
+
+      <!-- Mode Switcher -->
+      <div class="mode-tabs">
+        <button class="tab-btn active" id="tab-single">Single Link Mode</button>
+        <button class="tab-btn" id="tab-batch">Batch Mode (Multi-Link)</button>
+      </div>
+
+      <!-- Input Single / Batch -->
+      <div id="container-single">
+        <input type="url" class="input-box" id="link-input" placeholder=">> Tempel URL Target (MediaFire / Safelink / Bit.ly)..." autocomplete="off">
+      </div>
+      <div id="container-batch" style="display: none;">
+        <textarea class="input-box" id="batch-input" rows="3" placeholder=">> Tempel banyak link di sini&#10;https://sfl.gl/xxx&#10;https://www.mediafire.com/file/xxx"></textarea>
+      </div>
+
       <div class="btn-group">
-        <button class="btn btn-primary" id="btn-download">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-          UNDUH
+        <button class="btn btn-main" id="btn-download">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          EKSTRAK & UNDUH
         </button>
-        <button class="btn btn-secondary" id="btn-copy" disabled>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <button class="btn btn-sec" id="btn-copy" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
           COPY
         </button>
       </div>
     </div>
 
+    <!-- Terminal Console Panel -->
     <div class="panel terminal">
-      <div class="panel-title" style="color: #64748b; display: flex; justify-content: space-between;">
-        LIVE CONSOLE
-        <span id="clear-term" style="font-size: 0.65rem; cursor: pointer; color: var(--neon-red);">[CLEAR]</span>
+      <div class="panel-header">
+        <div class="panel-title" style="color: var(--text-muted);">LIVE NEURAL LOGS</div>
+        <span id="clear-term" style="font-size: 0.65rem; cursor: pointer; color: var(--neon-red); font-family: var(--font-mono);">[CLEAR]</span>
       </div>
       <div class="term-window" id="term-window">
-        <div class="log-sys">> System initialized. Multi-Bypass ready...</div>
+        <div class="log-sys">> Neural engine initialized successfully. Ready for input...</div>
       </div>
     </div>
 
+    <!-- History Panel -->
     <div class="panel">
-      <div class="panel-title">RECENT BYPASS</div>
+      <div class="panel-header">
+        <div class="panel-title">SESSION CACHE</div>
+      </div>
       <div class="history-list" id="history-list"></div>
     </div>
 
+    <!-- Footer -->
     <footer class="footer">
       <div class="author">AUTHOR RAMZYY03</div>
-      <div class="sub">Advanced Encryption Standard V2.0</div>
+      <div class="sub">Advanced Decryption Matrix Engine v3.0</div>
     </footer>
+
   </div>
 
   <script>
-    // VERIFICATION UI
+    // --- VERIFICATION MATRIX SCRIPT ---
     const cfOverlay = document.getElementById('cf-overlay');
-    const cfCheckbox = document.getElementById('cf-checkbox');
-    const cfText = document.getElementById('cf-text');
+    const matrixTrigger = document.getElementById('matrix-trigger');
+    const matrixCheckbox = document.getElementById('matrix-checkbox');
     const appWrapper = document.getElementById('app-wrapper');
 
-    cfCheckbox.addEventListener('click', () => {
-      if (cfCheckbox.classList.contains('loading') || cfCheckbox.classList.contains('success')) return;
-      cfCheckbox.classList.add('loading');
-      cfText.innerText = "Verifying secure connection...";
-      cfText.style.color = "#00f3ff";
+    matrixTrigger.addEventListener('click', () => {
+      if (matrixCheckbox.classList.contains('loading') || matrixCheckbox.classList.contains('success')) return;
+      matrixCheckbox.classList.add('loading');
 
       setTimeout(() => {
-        cfCheckbox.classList.remove('loading');
-        cfCheckbox.classList.add('success');
-        cfCheckbox.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-        cfText.innerText = "Verification complete.";
-        cfText.style.color = "#00ff88";
+        matrixCheckbox.classList.remove('loading');
+        matrixCheckbox.classList.add('success');
+        matrixCheckbox.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
 
         setTimeout(() => {
           cfOverlay.classList.add('hidden');
@@ -180,14 +286,44 @@
             cfOverlay.style.display = 'none';
             appWrapper.classList.add('active');
           }, 500);
-        }, 800);
-      }, 1500);
+        }, 600);
+      }, 1200);
     });
 
-    // MAIN APP
+    // --- PING MONITOR SIMULATOR ---
+    setInterval(() => {
+      const randomPing = Math.floor(Math.random() * (22 - 12 + 1)) + 12;
+      document.getElementById('ping-monitor').innerText = `Latency: ${randomPing}ms`;
+    }, 4000);
+
+    // --- MODE SWITCHER (SINGLE VS BATCH) ---
+    const tabSingle = document.getElementById('tab-single');
+    const tabBatch = document.getElementById('tab-batch');
+    const containerSingle = document.getElementById('container-single');
+    const containerBatch = document.getElementById('container-batch');
+    let isBatchMode = false;
+
+    tabSingle.addEventListener('click', () => {
+      tabSingle.classList.add('active');
+      tabBatch.classList.remove('active');
+      containerSingle.style.display = 'block';
+      containerBatch.style.display = 'none';
+      isBatchMode = false;
+    });
+
+    tabBatch.addEventListener('click', () => {
+      tabBatch.classList.add('active');
+      tabSingle.classList.remove('active');
+      containerSingle.style.display = 'none';
+      containerBatch.style.display = 'block';
+      isBatchMode = true;
+    });
+
+    // --- APP LOGIC ---
     const btnDownload = document.getElementById('btn-download');
     const btnCopy = document.getElementById('btn-copy');
     const linkInput = document.getElementById('link-input');
+    const batchInput = document.getElementById('batch-input');
     const termWindow = document.getElementById('term-window');
     const historyList = document.getElementById('history-list');
 
@@ -211,90 +347,142 @@
     const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
     function loadHistory() {
-      const h = JSON.parse(localStorage.getItem('mf_history_v2') || '[]');
+      const h = JSON.parse(localStorage.getItem('mf_history_v3') || '[]');
       historyList.innerHTML = '';
       if (h.length === 0) { historyList.innerHTML = '<div class="empty-history">Belum ada riwayat sesi ini.</div>'; return; }
       h.forEach(item => {
-        historyList.innerHTML += `<div class="history-item"><span class="time">${item.time} - ${item.type}</span><span class="url">${item.url}</span></div>`;
+        historyList.innerHTML += `
+          <div class="history-item">
+            <div class="history-info">
+              <span class="time">${item.time} - [${item.type}]</span>
+              <span class="url">${item.url}</span>
+            </div>
+          </div>`;
       });
     }
 
     function saveHistory(url, type) {
-      const h = JSON.parse(localStorage.getItem('mf_history_v2') || '[]');
+      const h = JSON.parse(localStorage.getItem('mf_history_v3') || '[]');
       const time = new Date().toLocaleTimeString('id-ID', { hour12: false });
       h.unshift({ url, time, type }); 
       if (h.length > 3) h.pop(); 
-      localStorage.setItem('mf_history_v2', JSON.stringify(h));
+      localStorage.setItem('mf_history_v3', JSON.stringify(h));
       loadHistory();
     }
     loadHistory();
 
+    // Fungsi Eksekusi Bypass
+    async function processBypass(url) {
+      const response = await fetch('/api/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: url })
+      });
+      return await response.json();
+    }
+
     btnDownload.addEventListener('click', async () => {
-      const url = linkInput.value.trim();
-      currentDirectLink = "";
       btnCopy.disabled = true;
+      currentDirectLink = "";
 
-      if (!url || !url.startsWith('http')) {
-        addLog("ERR: URL tidak valid. Harus diawali http/https.", "log-err");
-        return;
-      }
+      if (!isBatchMode) {
+        // --- SINGLE MODE ---
+        const url = linkInput.value.trim();
+        if (!url || !url.startsWith('http')) {
+          addLog("ERR: Masukkan URL target yang valid (http/https).", "log-err");
+          return;
+        }
 
-      btnDownload.disabled = true;
-      btnDownload.innerHTML = 'MEMPROSES...';
-      
-      addLog(`Menganalisa enkripsi pada URL...`, "log-warn");
-      await sleep(800);
-      addLog("Mengirim instruksi Deep Scan ke Server Node.js...", "log-sys");
-
-      try {
-        const response = await fetch('/api/extract', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url: url })
-        });
-
-        const data = await response.json();
+        btnDownload.disabled = true;
+        btnDownload.innerHTML = 'MEMPROSES...';
+        addLog(`Menganalisa target tunggal...`, "log-warn");
         await sleep(600);
 
-        if (data.success) {
-          currentDirectLink = data.direct_link;
-          btnCopy.disabled = false;
-          
-          addLog(`Protokol Terdeteksi: [${data.type}]`, "log-info");
-          addLog("Bypass Payload berhasil didapatkan!", "log-succ");
-          addLog("Memaksa browser melakukan unduhan di latar belakang...", "log-sys");
-          
-          saveHistory(url, data.type);
+        try {
+          const data = await processBypass(url);
+          await sleep(500);
 
-          // TRIK SILUMAN (IFRAME) - Memaksa unduhan tanpa memindahkan halaman UI
-          setTimeout(() => {
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = data.direct_link;
-            document.body.appendChild(iframe);
-            addLog("Download dimulai! Cek notifikasi HP Anda.", "log-succ");
-          }, 1000);
+          if (data.success) {
+            currentDirectLink = data.direct_link;
+            btnCopy.disabled = false;
+            addLog(`Tipe Protokol: [${data.type}]`, "log-info");
+            addLog("Payload decrypter berhasil di-generate!", "log-succ");
+            addLog("Memanggil hidden iframe untuk unduhan siluman...", "log-sys");
+            
+            saveHistory(url, data.type);
 
-        } else {
-          addLog(`ERR: ${data.message}`, "log-err");
-        }
-      } catch (err) {
-        addLog("ERR: Koneksi API Backend terputus.", "log-err");
-      } finally {
-        setTimeout(() => {
+            // Siluman Download via iFrame
+            setTimeout(() => {
+              const iframe = document.createElement('iframe');
+              iframe.style.display = 'none';
+              iframe.src = data.direct_link;
+              document.body.appendChild(iframe);
+              addLog("Unduhan latar belakang aktif!", "log-succ");
+            }, 800);
+
+          } else {
+            addLog(`ERR: ${data.message}`, "log-err");
+          }
+        } catch (err) {
+          addLog("ERR: Gagal terhubung ke server backend.", "log-err");
+        } finally {
           btnDownload.disabled = false;
-          btnDownload.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> UNDUH`;
-        }, 1500);
+          btnDownload.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> EKSTRAK & UNDUH`;
+        }
+
+      } else {
+        // --- BATCH MODE (MULTI-LINK) ---
+        const rawText = batchInput.value.trim();
+        const urls = rawText.split('\n').map(u => u.trim()).filter(u => u.startsWith('http'));
+
+        if (urls.length === 0) {
+          addLog("ERR: Tidak ada URL valid di dalam Batch Box.", "log-err");
+          return;
+        }
+
+        btnDownload.disabled = true;
+        btnDownload.innerHTML = `PROCESSING (${urls.length})...`;
+        addLog(`Memulai Batch Engine untuk ${urls.length} target...`, "log-warn");
+
+        for (let i = 0; i < urls.length; i++) {
+          const targetUrl = urls[i];
+          addLog(`[${i+1}/${urls.length}] Bypass: ${targetUrl.substring(0, 25)}...`, "log-sys");
+          
+          try {
+            const data = await processBypass(targetUrl);
+            if (data.success) {
+              addLog(`[${i+1}] SUCCESS: [${data.type}]`, "log-succ");
+              saveHistory(targetUrl, data.type);
+              
+              // Trigger auto download berjarak tipis agar tidak bentrok
+              setTimeout(() => {
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = data.direct_link;
+                document.body.appendChild(iframe);
+              }, i * 1200);
+            } else {
+              addLog(`[${i+1}] FAILED: ${data.message}`, "log-err");
+            }
+          } catch(e) {
+            addLog(`[${i+1}] ERR: Koneksi terputus.`, "log-err");
+          }
+          await sleep(500);
+        }
+
+        addLog("Batch Queue selesai dieksekusi.", "log-succ");
+        btnDownload.disabled = false;
+        btnDownload.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> EKSTRAK & UNDUH`;
       }
     });
 
     btnCopy.addEventListener('click', () => {
       if (currentDirectLink) {
         navigator.clipboard.writeText(currentDirectLink).then(() => {
-          addLog("Direct link disalin ke Clipboard!", "log-succ");
+          addLog("Direct link berhasil disalin!", "log-succ");
           btnCopy.innerHTML = "COPIED!";
-          setTimeout(() => { btnCopy.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> COPY`; }, 2000);
-        }).catch(() => { addLog("ERR: Gagal menyalin teks.", "log-err"); });
+          setTimeout(() => { btnCopy.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> COPY`; }, 2000);
+        }).catch(() => { addLog("ERR: Gagal menyalin clipboard.", "log-err"); });
       }
     });
   </script>
