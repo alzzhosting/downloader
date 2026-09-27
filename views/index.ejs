@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FIVEM HUD BYPASS ENGINE</title>
-  <!-- Google Fonts ala FiveM / Gaming HUD -->
+  <title>FIVEM HUD BYPASS & AI</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -35,7 +34,7 @@
       overflow-x: hidden;
     }
 
-    /* --- CAPTCHA OVERLAY (FIVEM STYLE) --- */
+    /* --- CAPTCHA OVERLAY --- */
     .cf-overlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(12, 13, 18, 0.95);
@@ -45,8 +44,7 @@
     .cf-overlay.hidden { opacity: 0; pointer-events: none; }
     
     .cf-box {
-      background: var(--card-bg);
-      border: 2px solid var(--accent-cyan);
+      background: var(--card-bg); border: 2px solid var(--accent-cyan);
       border-radius: 6px; padding: 24px; width: 100%; max-width: 340px;
       box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
       display: flex; flex-direction: column; gap: 14px; text-align: center;
@@ -77,7 +75,7 @@
     .captcha-btn:hover { background: #00b8d4; }
     .cf-footer-secure { font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-mono); border-top: 1px solid var(--border-color); padding-top: 8px; text-transform: uppercase; }
 
-    /* --- MAIN APP WRAPPER (LIGHTWEIGHT & SHARP) --- */
+    /* --- MAIN APP WRAPPER --- */
     .app-wrapper {
       width: 100%; max-width: 480px; display: none; flex-direction: column; gap: 12px;
       animation: fadeIn 0.3s ease forwards;
@@ -87,10 +85,8 @@
 
     /* HUD Header */
     .hud-header {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color); border-left: 4px solid var(--accent-cyan);
-      border-radius: 4px; padding: 12px 16px;
-      display: flex; justify-content: space-between; align-items: center;
+      background: var(--card-bg); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-cyan);
+      border-radius: 4px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
     }
     .hud-title h1 { font-size: 1.1rem; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; }
     .hud-title p { font-size: 0.65rem; color: var(--accent-cyan); font-family: var(--font-mono); text-transform: uppercase; }
@@ -98,11 +94,18 @@
     .status-badge { display: flex; align-items: center; gap: 5px; font-size: 0.65rem; font-family: var(--font-mono); color: var(--accent-green); background: rgba(0, 230, 118, 0.1); padding: 3px 8px; border-radius: 3px; border: 1px solid rgba(0, 230, 118, 0.3); text-transform: uppercase; }
     .status-dot { width: 5px; height: 5px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 5px var(--accent-green); }
 
+    /* Main Navigation Switcher (Extractor vs Gita AI) */
+    .nav-switcher { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .nav-tab-btn {
+      background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-muted);
+      font-family: var(--font-hud); font-weight: 900; font-size: 0.72rem; padding: 10px; border-radius: 4px;
+      cursor: pointer; text-transform: uppercase; text-align: center; transition: 0.2s;
+    }
+    .nav-tab-btn.active { background: var(--accent-cyan); color: #000; border-color: var(--accent-cyan); box-shadow: 0 0 10px rgba(0, 229, 255, 0.2); }
+
     /* Panels */
     .panel {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color); border-radius: 4px; padding: 14px;
-      position: relative;
+      background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 4px; padding: 14px; position: relative;
     }
     .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .panel-title { font-size: 0.75rem; font-weight: 900; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px; }
@@ -149,7 +152,7 @@
     .btn-sec:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
     .btn-sec:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* QR Code Matrix (DIPERBESAR) */
+    /* QR Code Matrix */
     .qr-preview-box {
       margin-top: 12px; background: #08090d; border: 1px dashed var(--accent-cyan);
       border-radius: 4px; padding: 14px; display: none; align-items: center; gap: 14px;
@@ -165,6 +168,33 @@
     .log-sys { color: #8c92a4; } .log-warn { color: #ffb300; } .log-succ { color: var(--accent-green); } .log-err { color: var(--accent-red); } .log-info { color: var(--accent-cyan); }
     .blinking-cursor { display: inline-block; width: 5px; height: 10px; background: var(--accent-cyan); animation: blink 1s step-end infinite; margin-left: 3px; }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* --- GITA AI CHAT STYLING --- */
+    .ai-container { display: none; flex-direction: column; gap: 10px; }
+    .ai-container.active { display: flex; }
+    
+    .chat-box {
+      background: #08090d; border: 1px solid var(--border-color); border-radius: 4px;
+      height: 240px; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .chat-bubble {
+      max-width: 85%; padding: 8px 12px; border-radius: 4px; font-size: 0.75rem; font-family: var(--font-mono); line-height: 1.4; word-break: break-word;
+    }
+    .chat-bubble.user { background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.3); color: var(--accent-cyan); align-self: flex-end; }
+    .chat-bubble.ai { background: #1a1c26; border: 1px solid var(--border-color); color: #fff; align-self: flex-start; }
+    .chat-bubble.loading { color: var(--text-muted); font-style: italic; }
+
+    .chat-input-row { display: flex; gap: 6px; }
+    .chat-input {
+      flex: 1; background: #08090d; border: 1px solid var(--border-color); border-radius: 4px; padding: 10px;
+      color: #fff; font-family: var(--font-mono); font-size: 0.75rem; outline: none;
+    }
+    .chat-input:focus { border-color: var(--accent-cyan); }
+    .chat-send-btn {
+      background: var(--accent-cyan); border: none; border-radius: 4px; padding: 0 16px;
+      font-family: var(--font-hud); font-weight: 900; font-size: 0.75rem; color: #000; cursor: pointer; text-transform: uppercase;
+    }
+    .chat-send-btn:hover { background: #00b8d4; }
 
     /* History & Lists */
     .sub-tabs { display: flex; gap: 4px; margin-bottom: 8px; }
@@ -217,14 +247,20 @@
     <!-- HUD Header -->
     <div class="hud-header">
       <div class="hud-title">
-        <h1>BYPASS ENGINE</h1>
-        <p>SYSTEM v6.1 [OPTIMIZED]</p>
+        <h1>BYPASS & AI HUD</h1>
+        <p>SYSTEM v6.2 [GITA AI]</p>
       </div>
       <div class="status-badge"><div class="status-dot"></div>ONLINE</div>
     </div>
 
-    <!-- Main Extractor Panel -->
-    <div class="panel">
+    <!-- Navigation Switcher (Extractor vs Gita AI) -->
+    <div class="nav-switcher">
+      <button class="nav-tab-btn active" id="tab-btn-extractor" onclick="switchMainTab('extractor')">EXTRACTOR</button>
+      <button class="nav-tab-btn" id="tab-btn-ai" onclick="switchMainTab('ai')">GITA AI CHAT</button>
+    </div>
+
+    <!-- VIEW 1: EXTRACTOR PANEL -->
+    <div id="view-extractor" class="panel">
       <div class="panel-header">
         <div class="panel-title">EXTRACTOR MODULE</div>
         <div style="font-size:0.65rem; font-family:var(--font-mono); color:var(--accent-green);" id="stats-counter">SAVED: 0</div>
@@ -268,13 +304,28 @@
 
       <div style="font-size:0.65rem; font-family:var(--font-mono); color:var(--accent-green); margin-top:6px; display:none;" id="benchmark-info">⚡ SELESAI DALAM 0.00s</div>
       
-      <!-- QR CODE (DIPERBESAR JADI 130PX) -->
+      <!-- QR CODE (Diperbesar) -->
       <div class="qr-preview-box" id="qr-preview-box">
         <img id="qr-img" class="qr-image" src="" alt="QR">
         <div class="qr-info">
           <span>QR CODE MATRIX</span>
           SCAN UNTUK MEMBUKA LINK PADA PERANGKAT LAIN.
         </div>
+      </div>
+    </div>
+
+    <!-- VIEW 2: GITA AI CHAT PANEL -->
+    <div id="view-ai" class="panel ai-container">
+      <div class="panel-header">
+        <div class="panel-title">GITA AI ASSISTANT</div>
+        <div style="font-size:0.65rem; font-family:var(--font-mono); color:var(--accent-cyan);">SIPUTZX API</div>
+      </div>
+      <div class="chat-box" id="chat-messages">
+        <div class="chat-bubble ai">Halo! Saya Gita AI. Ada yang bisa saya bantu hari ini?</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Tulis pesan ke Gita AI..." autocomplete="off">
+        <button class="chat-send-btn" id="btn-send-chat">KIRIM</button>
       </div>
     </div>
 
@@ -309,7 +360,7 @@
     <!-- Footer -->
     <footer class="footer">
       <div class="author">RAMZYY03 DESIGN</div>
-      <div class="sub">FIVEM HUD INTERFACE v6.1</div>
+      <div class="sub">FIVEM HUD INTERFACE v6.2</div>
     </footer>
 
   </div>
@@ -330,6 +381,84 @@
         osc.start(); osc.stop(audioCtx.currentTime + duration);
       } catch(e) {}
     }
+
+    // --- MAIN TAB SWITCHER (Extractor vs AI Chat) ---
+    function switchMainTab(tab) {
+      playBeep(600);
+      const extView = document.getElementById('view-extractor');
+      const aiView = document.getElementById('view-ai');
+      const btnExt = document.getElementById('tab-btn-extractor');
+      const btnAi = document.getElementById('tab-btn-ai');
+
+      if (tab === 'extractor') {
+        extView.style.display = 'block';
+        aiView.classList.remove('active');
+        btnExt.classList.add('active');
+        btnAi.classList.remove('active');
+      } else {
+        extView.style.display = 'none';
+        aiView.classList.add('active');
+        btnAi.classList.add('active');
+        btnExt.classList.remove('active');
+      }
+    }
+
+    // --- GITA AI CHAT LOGIC ---
+    const chatMessages = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+    const btnSendChat = document.getElementById('btn-send-chat');
+
+    async function sendToGitaAI() {
+      const query = chatInput.value.trim();
+      if (!query) return;
+      playBeep(800);
+
+      // Append User Bubble
+      chatMessages.innerHTML += `<div class="chat-bubble user">${escapeHtml(query)}</div>`;
+      chatInput.value = '';
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      // Append Loading Bubble
+      const loadingId = 'loading-' + Date.now();
+      chatMessages.innerHTML += `<div class="chat-bubble ai loading" id="${loadingId}">Gita AI sedang mengetik...</div>`;
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      try {
+        const res = await fetch(`https://api.siputzx.my.id/api/ai/gita?q=${encodeURIComponent(query)}`);
+        const json = await res.json();
+        
+        // Remove loading bubble
+        document.getElementById(loadingId).remove();
+
+        // Extract response safely
+        let aiReply = "Maaf, terjadi kesalahan saat menerima respons.";
+        if (json && json.data) aiReply = json.data;
+        else if (json && json.result) aiReply = json.result;
+        else if (json && json.message) aiReply = json.message;
+        else if (typeof json === 'string') aiReply = json;
+
+        playBeep(1000, 'sine', 0.1);
+        chatMessages.innerHTML += `<div class="chat-bubble ai">${escapeHtml(aiReply)}</div>`;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        addLog("Gita AI merespons pesan.", "log-succ");
+
+      } catch (err) {
+        document.getElementById(loadingId).remove();
+        playBeep(200, 'sawtooth', 0.1);
+        chatMessages.innerHTML += `<div class="chat-bubble ai" style="color:var(--accent-red);">Gagal terhubung ke server Gita AI.</div>`;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        addLog("ERR: Gita AI gagal merespons.", "log-err");
+      }
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    btnSendChat.addEventListener('click', sendToGitaAI);
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendToGitaAI();
+    });
 
     // --- CAPTCHA LOGIC ---
     let currentCaptchaCode = "";
@@ -412,7 +541,7 @@
         if (clips.length === 0) { container.innerHTML = '<div class="empty-msg">CLIPBOARD KOSONG.</div>'; return; }
         clips.forEach((clip, idx) => {
           container.innerHTML += `
-            <div class="list-item" onclick="document.getElementById('link-input').value='${clip}'; switchSubTab('history');">
+            <div class="list-item" onclick="document.getElementById('link-input').value='${clip}'; switchMainTab('extractor'); switchSubTab('history');">
               <div class="list-item-info">
                 <span class="meta">STACK #${idx+1}</span>
                 <span class="url">${clip}</span>
@@ -520,7 +649,6 @@
           benchmarkInfo.innerText = `⚡ SELESAI DALAM ${duration}s`;
           benchmarkInfo.style.display = 'block';
 
-          // QR Code Diperbesar
           qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(data.direct_link)}`;
           qrBox.classList.add('active');
 
